@@ -424,19 +424,6 @@
 
 <div class="panel" id="panel-settings">
   <div class="settings-section">
-    <div class="settings-label">// DeepL API キー</div>
-    <div class="form-card">
-      <div class="form-row">
-        <div class="form-label">
-          <span class="form-label-text">DeepL API キー</span>
-        </div>
-        <input type="password" id="deepl-api-key" class="form-input" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx:fx" oninput="saveDeepLKey()">
-      </div>
-      <div class="voice-note">🔑 <a href="https://www.deepl.com/ja/pro-api" target="_blank" style="color:var(--accent)">DeepL公式サイト</a>で無料アカウントを作成するとAPIキーが取得できます。月50万文字まで無料。キーは自動保存されます。</div>
-    </div>
-  </div>
-
-  <div class="settings-section">
     <div class="settings-label">// 表示中の言語</div>
     <div id="current-langs-list"></div>
   </div>
@@ -565,90 +552,23 @@
     document.getElementById('total-count').textContent = phrases.length;
   }
 
-  // ── DeepL APIキー管理 ──
-  function saveDeepLKey() {
-    const key = document.getElementById('deepl-api-key').value;
-    try { localStorage.setItem('deepl-api-key', key); } catch(e) {}
-  }
-
-  function loadDeepLKey() {
-    try {
-      const key = localStorage.getItem('deepl-api-key') || '';
-      const el = document.getElementById('deepl-api-key');
-      if (el) el.value = key;
-      return key;
-    } catch(e) { return ''; }
-  }
-
-  // DeepLの言語コードマッピング
-  const DEEPL_LANG_MAP = {
-    'ja': 'JA',
-    'en': 'EN-GB',
-    'de': 'DE',
-    'fr': 'FR',
-    'nl': 'NL',
-    'sv': 'SV',
-    'es': 'ES',
-    'it': 'IT',
-    'pt': 'PT-PT',
-    'ko': 'KO',
-    'zh': 'ZH',
-    'ru': 'RU',
-  };
-
-  // DeepLで1テキストを1言語に翻訳
-  async function translateWithDeepL(text, targetCode, apiKey) {
-    const targetLang = DEEPL_LANG_MAP[targetCode] || targetCode.toUpperCase();
-    // 無料プラン（:fx）か有料プランかでURLが変わる
-    const isFree = apiKey.endsWith(':fx');
-    const url = isFree
-      ? 'https://api-free.deepl.com/v2/translate'
-      : 'https://api.deepl.com/v2/translate';
-
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'DeepL-Auth-Key ' + apiKey,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        text: [text],
-        target_lang: targetLang,
-      })
-    });
-
-    if (!res.ok) {
-      const err = await res.text();
-      throw new Error('DeepL error: ' + res.status + ' ' + err);
-    }
-    const data = await res.json();
-    return data.translations[0].text;
-  }
-
-  // ── 自動翻訳 ──
+  // ── 自動翻訳（Claude API） ──
   async function autoTranslate() {
-    const apiKey = loadDeepLKey();
-    if (!apiKey) {
-      showToast('設定画面でDeepL APIキーを入力してください');
-      switchTab('settings');
-      return;
-    }
-
     const jaEl = document.getElementById('input-ja');
     const jaText = jaEl ? jaEl.value.trim() : '';
 
     let sourceText = '';
-    let sourceCode = 'ja';
+    let sourceLangName = '';
 
     if (jaText) {
       sourceText = jaText;
-      sourceCode = 'ja';
+      sourceLangName = '日本語';
     } else {
       for (const lang of getActiveLangs()) {
         const el = document.getElementById('input-' + lang.code);
         if (el && el.value.trim()) {
           sourceText = el.value.trim();
-          sourceCode = lang.code;
+          sourceLangName = lang.name;
           break;
         }
       }
@@ -663,13 +583,13 @@
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> 翻訳中...';
 
-    // 翻訳先リスト（空欄の欄だけ）
     const targets = [];
-    if (sourceCode !== 'ja' && jaEl && !jaEl.value.trim()) targets.push('ja');
+    if (!jaText) targets.push({ code: 'ja', name: '日本語' });
     getActiveLangs().forEach(lang => {
-      if (lang.code === sourceCode) return;
       const el = document.getElementById('input-' + lang.code);
-      if (!el || !el.value.trim()) targets.push(lang.code);
+      if (!el || !el.value.trim()) {
+        targets.push({ code: lang.code, name: lang.britishOnly ? lang.name + ' (British English)' : lang.name });
+      }
     });
 
     if (targets.length === 0) {
@@ -679,38 +599,56 @@
       return;
     }
 
-    try {
-      // 並列で全言語翻訳
-      const results = await Promise.all(
-        targets.map(async code => {
-          const translated = await translateWithDeepL(sourceText, code, apiKey);
-          return { code, translated };
-        })
-      );
+    const targetList = targets.map(t => `- ${t.name} (code: ${t.code})`).join('\n');
+    const prompt = `以下のフレーズを指定された言語に翻訳してください。
 
-      results.forEach(({ code, translated }) => {
-        if (code === 'ja' && jaEl) {
-          jaEl.value = translated;
-          jaEl.classList.add('input-translated');
-        } else {
-          const el = document.getElementById('input-' + code);
+元のフレーズ（${sourceLangName}）: "${sourceText}"
+
+翻訳先:
+${targetList}
+
+重要なルール:
+- 英語はBritish Englishで翻訳すること
+- 日常会話・自然な表現を使うこと
+- 必ず以下のJSON形式のみで返答すること。説明や前置きは不要
+- JSONのキーは言語コード（jaなど）を使うこと
+
+{"ja":"...","en":"...","de":"..."}`;
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      const data = await response.json();
+      const raw = data.content.map(c => c.text || '').join('');
+      const clean = raw.replace(/```json|```/g, '').trim();
+      const result = JSON.parse(clean);
+
+      if (result.ja && jaEl) {
+        jaEl.value = result.ja;
+        jaEl.classList.add('input-translated');
+      }
+      getActiveLangs().forEach(lang => {
+        if (result[lang.code]) {
+          const el = document.getElementById('input-' + lang.code);
           if (el && !el.value.trim()) {
-            el.value = translated;
+            el.value = result[lang.code];
             el.classList.add('input-translated');
           }
         }
       });
 
-      showToast('DeepLで翻訳しました ✓');
+      showToast('翻訳しました ✓');
     } catch (e) {
+      showToast('翻訳に失敗しました');
       console.error(e);
-      if (e.message.includes('403')) {
-        showToast('APIキーが正しくありません');
-      } else if (e.message.includes('456')) {
-        showToast('DeepLの翻訳文字数上限に達しました');
-      } else {
-        showToast('翻訳に失敗しました：' + e.message);
-      }
     }
 
     btn.disabled = false;
@@ -1153,7 +1091,6 @@ ${langList}
   updateHeader();
   renderPhrases();
   renderLangInputs();
-  loadDeepLKey();
 
   if (hasSavedData) {
     showToast('データを読み込みました ✓');
