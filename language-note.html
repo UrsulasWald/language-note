@@ -450,6 +450,25 @@
     </div>
   </div>
   <div class="settings-section">
+    <div class="settings-label">// データの書き出し・読み込み</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:16px;margin-bottom:8px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px">
+        <div style="font-size:13px;font-weight:500">書き出す（エクスポート）</div>
+        <div id="last-export-time" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text-light)">未書き出し</div>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">フレーズデータをJSONファイルで保存します。Googleドライブに保存しておくとスマホと共有できます。</div>
+      <button class="btn-primary" style="margin-top:0" onclick="exportData()">📤 JSONファイルを書き出す</button>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:16px">
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px">読み込む（インポート）</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">書き出したJSONファイルを読み込みます。既存のデータに追加（マージ）されます。</div>
+      <label style="display:block;width:100%;padding:12px;background:none;border:1px dashed var(--border-dark);border-radius:4px;text-align:center;font-size:13px;color:var(--text-muted);cursor:pointer;box-sizing:border-box">
+        📥 JSONファイルを選択
+        <input type="file" accept=".json" style="display:none" onchange="importData(event)">
+      </label>
+    </div>
+  </div>
+  <div class="settings-section">
     <div class="settings-label">// 言語の管理</div>
     <div id="all-langs-list"></div>
   </div>
@@ -1088,6 +1107,7 @@ ${langList}
 
   // ── 設定画面 ──
   function renderSettings() {
+    updateExportTime();
     const statusEl = document.getElementById('apikey-status');
     if (statusEl) {
       statusEl.textContent = deeplApiKey
@@ -1352,6 +1372,94 @@ ${langList}
       console.error('読み込み失敗:', e);
       return false;
     }
+  }
+
+  // ── エクスポート／インポート ──
+  function exportData() {
+    const date = new Date();
+    const dateStr = date.getFullYear()
+      + ('0'+(date.getMonth()+1)).slice(-2)
+      + ('0'+date.getDate()).slice(-2);
+    const filename = `language-note-${dateStr}.json`;
+
+    const data = JSON.stringify({ phrases, hiddenLangCodes, activeLangCodes }, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    // 最終書き出し日時を保存
+    try { localStorage.setItem('language-note-last-export', date.toISOString()); } catch(e) {}
+    updateExportTime();
+    showToast(`${filename} を書き出しました ✓`);
+  }
+
+  function updateExportTime() {
+    const el = document.getElementById('last-export-time');
+    if (!el) return;
+    try {
+      const raw = localStorage.getItem('language-note-last-export');
+      if (!raw) { el.textContent = '未書き出し'; return; }
+      const d = new Date(raw);
+      const now = new Date();
+      const diffDays = Math.floor((now - d) / (1000 * 60 * 60 * 24));
+      const timeStr = d.getFullYear() + '/'
+        + ('0'+(d.getMonth()+1)).slice(-2) + '/'
+        + ('0'+d.getDate()).slice(-2);
+      if (diffDays === 0) el.textContent = '今日 ' + timeStr;
+      else if (diffDays === 1) el.textContent = '昨日 ' + timeStr;
+      else el.textContent = `${diffDays}日前 ${timeStr}`;
+
+      // 3日以上経ってたら色を変えて注意を促す
+      el.style.color = diffDays >= 3 ? 'var(--accent)' : 'var(--text-light)';
+    } catch(e) {}
+  }
+
+  function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!data.phrases || !Array.isArray(data.phrases)) {
+          showToast('ファイルの形式が正しくありません');
+          return;
+        }
+        // 既存フレーズと重複チェック（日本語が同じものはスキップ）
+        const existingJa = new Set(phrases.map(p => p.ja));
+        const newPhrases = data.phrases.filter(p => !existingJa.has(p.ja));
+        phrases = [...phrases, ...newPhrases];
+
+        // 言語設定もマージ（新しい言語コードがあれば追加）
+        if (data.activeLangCodes) {
+          data.activeLangCodes.forEach(code => {
+            if (!activeLangCodes.includes(code)) activeLangCodes.push(code);
+          });
+        }
+        if (data.hiddenLangCodes) {
+          data.hiddenLangCodes.forEach(code => {
+            if (!hiddenLangCodes.includes(code)) hiddenLangCodes.push(code);
+          });
+        }
+
+        saveData();
+        updateHeader();
+        renderPhrases();
+        renderLangInputs();
+        renderSettings();
+        showToast(`${newPhrases.length}件のフレーズを読み込みました ✓`);
+      } catch(err) {
+        showToast('読み込みに失敗しました');
+        console.error(err);
+      }
+      // inputをリセット（同じファイルを再選択できるように）
+      event.target.value = '';
+    };
+    reader.readAsText(file);
   }
 
   // ── 初期化 ──
