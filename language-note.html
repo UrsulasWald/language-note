@@ -26,7 +26,7 @@
     color: var(--text);
     font-family: 'Noto Sans JP', sans-serif;
     min-height: 100vh;
-    padding-bottom: 60px;
+    padding-bottom: 80px;
   }
 
   /* ── Header ── */
@@ -54,18 +54,21 @@
   .tab-bar {
     display: flex;
     background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 82px;
+    border-top: 1px solid var(--border);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 15;
+    padding-bottom: env(safe-area-inset-bottom);
   }
   .tab {
-    flex: 1; padding: 11px 8px; text-align: center; font-size: 12px;
+    flex: 1; padding: 12px 8px; text-align: center; font-size: 12px;
     font-weight: 500; color: var(--text-muted); cursor: pointer;
-    border-bottom: 2px solid transparent; transition: all 0.15s;
+    border-top: 2px solid transparent; transition: all 0.15s;
     letter-spacing: 0.03em;
   }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab.active { color: var(--accent); border-top-color: var(--accent); }
 
   /* ── Panels ── */
   .panel { display: none; padding: 16px; }
@@ -144,7 +147,6 @@
     background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
     padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
     transition: box-shadow 0.15s, opacity 0.15s;
-    touch-action: none;
   }
   .lang-setting-row.dragging { opacity: 0.4; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
   .lang-setting-row.drag-over { border-color: var(--accent); border-style: dashed; }
@@ -543,6 +545,11 @@
 
   // ── タブ切り替え ──
   function switchTab(name) {
+    const alreadyActive = document.getElementById('tab-' + name).classList.contains('active');
+    if (alreadyActive) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     ['list','add','settings'].forEach(t => {
       document.getElementById('panel-' + t).classList.toggle('active', t === name);
       document.getElementById('tab-' + t).classList.toggle('active', t === name);
