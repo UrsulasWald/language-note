@@ -694,7 +694,6 @@
     saveDeeplKey(val);
     closeApiKeyModal();
     showToast('APIキーを保存しました ✓');
-    // そのまま翻訳を実行
     autoTranslate();
   }
 
@@ -1089,7 +1088,6 @@ ${langList}
 
   // ── 設定画面 ──
   function renderSettings() {
-    // APIキーステータス更新
     const statusEl = document.getElementById('apikey-status');
     if (statusEl) {
       statusEl.textContent = deeplApiKey
@@ -1362,9 +1360,8 @@ ${langList}
     window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
   }
 
-  loadDeeplKey();
-
   const hasSavedData = loadData();
+  loadDeeplKey();
   updateHeader();
   renderPhrases();
   renderLangInputs();
