@@ -633,7 +633,7 @@
           <div class="lang-row">
             <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
             <span class="lang-text" style="color:${lang.color}">${text}</span>
-            <button class="speak-btn" onclick="event.stopPropagation();speakBtn(this,'${escapeAttr(text)}','${lang.code}')">▶</button>
+            <button class="speak-btn" onmousedown="event.stopPropagation()" onmouseup="event.stopPropagation()" ontouchstart="event.stopPropagation()" ontouchend="event.stopPropagation()" onclick="event.stopPropagation();speakBtn(this,'${escapeAttr(text)}','${lang.code}')">▶</button>
           </div>`;
       });
       langsHtml += '</div>';
