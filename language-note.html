@@ -1375,26 +1375,48 @@ ${langList}
   }
 
   // ── エクスポート／インポート ──
-  function exportData() {
+  async function exportData() {
     const date = new Date();
     const dateStr = date.getFullYear()
       + ('0'+(date.getMonth()+1)).slice(-2)
       + ('0'+date.getDate()).slice(-2);
     const filename = `language-note-${dateStr}.json`;
+    const dataStr = JSON.stringify({ phrases, hiddenLangCodes, activeLangCodes }, null, 2);
 
-    const data = JSON.stringify({ phrases, hiddenLangCodes, activeLangCodes }, null, 2);
-    const blob = new Blob([data], { type: 'application/json' });
+    // File System Access API が使えるブラウザ（Chrome等）は保存先を選択できる
+    if (window.showSaveFilePicker) {
+      try {
+        const fileHandle = await window.showSaveFilePicker({
+          suggestedName: filename,
+          types: [{ description: 'JSONファイル', accept: { 'application/json': ['.json'] } }],
+        });
+        const writable = await fileHandle.createWritable();
+        await writable.write(dataStr);
+        await writable.close();
+      } catch(e) {
+        if (e.name === 'AbortError') return; // キャンセルした場合は何もしない
+        // 失敗したら通常ダウンロードにフォールバック
+        fallbackDownload(filename, dataStr);
+      }
+    } else {
+      // Safari等はそのままダウンロード
+      fallbackDownload(filename, dataStr);
+    }
+
+    // 最終書き出し日時を保存
+    try { localStorage.setItem('language-note-last-export', date.toISOString()); } catch(e) {}
+    updateExportTime();
+    showToast(`${filename} を書き出しました ✓`);
+  }
+
+  function fallbackDownload(filename, dataStr) {
+    const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
-
-    // 最終書き出し日時を保存
-    try { localStorage.setItem('language-note-last-export', date.toISOString()); } catch(e) {}
-    updateExportTime();
-    showToast(`${filename} を書き出しました ✓`);
   }
 
   function updateExportTime() {
