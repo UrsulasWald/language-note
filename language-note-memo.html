@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>制作メモ — 語学ノートができるまで</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ee;
+  --surface: #ffffff;
+  --ink: #1e1a14;
+  --ink-muted: #7a6e5f;
+  --ink-light: #b5a898;
+  --accent: #c4873a;
+  --accent-pale: #f5ede0;
+  --border: #e0d8cc;
+  --border-dark: #c8bfaa;
+  --green: #3a7a4a;
+  --green-pale: #e8f5eb;
+  --blue: #2d5f8a;
+  --blue-pale: #e8f0f8;
+  --red: #b03a2e;
+  --red-pale: #faeae8;
+  --purple: #6a3d8a;
+  --purple-pale: #f2ecfa;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* ── HEADER ── */
+.page-header {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 56px 40px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 320px; height: 320px;
+  border: 40px solid rgba(196,135,58,0.15);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.page-header::after {
+  content: '';
+  position: absolute;
+  right: 60px; bottom: -80px;
+  width: 180px; height: 180px;
+  border: 24px solid rgba(196,135,58,0.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.header-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.header-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+.header-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(247,244,238,0.5);
+  letter-spacing: 0.1em;
+  margin-top: 20px;
+}
+
+/* ── LAYOUT ── */
+.container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ── SECTION HEADERS ── */
+.section {
+  margin-bottom: 56px;
+}
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+/* ── STEP TIMELINE ── */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px; top: 8px; bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.step {
+  position: relative;
+  margin-bottom: 28px;
+}
+.step::before {
+  content: '';
+  position: absolute;
+  left: -26px; top: 6px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--border-dark);
+}
+.step.done::before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.step-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 18px;
+  transition: box-shadow 0.15s;
+}
+.step-card:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+.step-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--ink-light);
+  margin-bottom: 4px;
+}
+.step-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.step-desc {
+  font-size: 12px;
+  color: var(--ink-muted);
+  line-height: 1.8;
+}
+.step-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.step-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  background: var(--accent-pale);
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+.step-tag.tool { background: var(--blue-pale); color: var(--blue); }
+.step-tag.file { background: var(--green-pale); color: var(--green); }
+.step-tag.trouble { background: var(--red-pale); color: var(--red); }
+
+/* ── SERVICE CARDS ── */
+.service-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.service-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.service-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+.service-icon {
+  width: 36px; height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.service-name-wrap { flex: 1; }
+.service-name {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.service-type {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-light);
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+.service-toggle {
+  font-size: 10px;
+  color: var(--ink-light);
+  transition: transform 0.2s;
+}
+.service-card.open .service-toggle { transform: rotate(180deg); }
+
+.service-body {
+  display: none;
+  padding: 16px 18px;
+}
+.service-card.open .service-body { display: block; }
+
+.service-desc {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+.service-role {
+  font-size: 13px;
+  line-height: 1.85;
+  margin-bottom: 14px;
+}
+.service-role strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.free-box {
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-top: 12px;
+}
+.free-box-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.free-box-text {
+  font-size: 12px;
+  line-height: 1.7;
+}
+.free-ok { background: var(--green-pale); }
+.free-ok .free-box-label { color: var(--green); }
+.free-ok .free-box-text { color: #2a5a38; }
+.free-caution { background: var(--accent-pale); }
+.free-caution .free-box-label { color: var(--accent); }
+.free-caution .free-box-text { color: #7a4a1a; }
+.free-note { background: var(--blue-pale); }
+.free-note .free-box-label { color: var(--blue); }
+.free-note .free-box-text { color: #1e3f60; }
+
+/* ── INSIDE THE APP ── */
+.tech-list {
+  display: grid;
+  gap: 10px;
+}
+.tech-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.tech-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  background: var(--accent-pale);
+  color: var(--accent);
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-top: 2px;
+  letter-spacing: 0.05em;
+}
+.tech-content .tech-name {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+.tech-content .tech-desc {
+  font-size: 12px;
+  color: var(--ink-muted);
+  line-height: 1.7;
+}
+
+/* ── MEMO ── */
+.memo-box {
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 8px;
+  padding: 24px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.memo-box::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  color: rgba(196,135,58,0.15);
+  position: absolute;
+  top: -20px; left: 10px;
+  line-height: 1;
+  pointer-events: none;
+}
+.memo-text {
+  font-size: 14px;
+  line-height: 2;
+  position: relative;
+}
+.memo-text em {
+  font-style: normal;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 40px 0;
+}
+
+/* ── FOOTER ── */
+.page-footer {
+  text-align: center;
+  padding: 32px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-light);
+  letter-spacing: 0.1em;
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="header-eyebrow">制作メモ / MAKING OF</div>
+  <h1 class="header-title">語学ノートが<br><em>できるまで</em></h1>
+  <div class="header-sub">language-note.html — 2026</div>
+</header>
+
+<div class="container">
+
+  <!-- ── 作ったもの ── -->
+  <section class="section">
+    <div class="section-label">what i made</div>
+    <div class="memo-box">
+      <p class="memo-text">
+        コードは全然わからないまま作り始めた。<br>
+        やりたいことを言葉にして、<em>キキ（Claude Code）</em>に渡す。<br>
+        直して、また渡す。それを繰り返したらアプリになってた。<br><br>
+        仕組みは半分しかわかってないけど、<em>動いてる</em>。
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 作業の流れ ── -->
+  <section class="section">
+    <div class="section-label">process</div>
+    <h2 class="section-title">作業の流れ</h2>
+
+    <div class="timeline">
+
+      <div class="step done">
+        <div class="step-card">
+          <div class="step-num">STEP 01</div>
+          <div class="step-title">「こういうものが欲しい」をClaudeに話す</div>
+          <div class="step-desc">多言語のフレーズを記録できるノートアプリを作りたい、と伝えた。仕様書とか書いてない。会話しながら形にしていった。</div>
+          <div class="step-tags">
+            <span class="step-tag tool">Claude Code</span>
+            <span class="step-tag">アイデア出し</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step done">
+        <div class="step-card">
+          <div class="step-num">STEP 02</div>
+          <div class="step-title">HTMLファイルとして出力してもらう</div>
+          <div class="step-desc">最初のバージョンをHTMLで書いてもらった。1ファイルで完結する形。サーバー不要で手元で開くだけで動く。</div>
+          <div class="step-tags">
+            <span class="step-tag file">language-note.html</span>
+            <span class="step-tag tool">Claude Code</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step done">
+        <div class="step-card">
+          <div class="step-num">STEP 03</div>
+          <div class="step-title">DeepL APIキーを取得する</div>
+          <div class="step-desc">翻訳機能を使うために必要。DeepLのサイトでアカウントを作り、APIキーを発行した。キーはアプリの設定画面から入力する仕組み。</div>
+          <div class="step-tags">
+            <span class="step-tag tool">DeepL API</span>
+            <span class="step-tag">アカウント作成</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step done">
+        <div class="step-card">
+          <div class="step-num">STEP 04</div>
+          <div class="step-title">フィードバックを繰り返す</div>
+          <div class="step-desc">「フォントをサンセリフに」「この機能追加して」「動かなくなった」など、気になったことをその都度Claudeに伝えて直してもらった。チャットが長くなってきたら新しい会話に切り替えた（トークン対策）。</div>
+          <div class="step-tags">
+            <span class="step-tag trouble">トラブル対応</span>
+            <span class="step-tag">反復改善</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step done">
+        <div class="step-card">
+          <div class="step-num">STEP 05</div>
+          <div class="step-title">GitHubにアップロードする</div>
+          <div class="step-desc">ファイルを保管・管理するためにGitHubへ。バージョン管理ができる（＝前の状態に戻せる）のが便利。</div>
+          <div class="step-tags">
+            <span class="step-tag tool">GitHub</span>
+            <span class="step-tag">バージョン管理</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step done">
+        <div class="step-card">
+          <div class="step-num">STEP 06</div>
+          <div class="step-title">Vercel（またはNetlify）で公開する</div>
+          <div class="step-desc">GitHubと連携するだけでURLが発行される。スマホからもアクセスできるようになった。</div>
+          <div class="step-tags">
+            <span class="step-tag tool">Vercel</span>
+            <span class="step-tag">公開</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step done">
+        <div class="step-card">
+          <div class="step-num">STEP 07</div>
+          <div class="step-title">Googleドライブでバックアップ管理</div>
+          <div class="step-desc">アプリのデータ（フレーズ一覧）をJSONでエクスポートして、Googleドライブに保管。端末が変わっても引き継げる。</div>
+          <div class="step-tags">
+            <span class="step-tag tool">Google Drive</span>
+            <span class="step-tag file">.json</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── サービス説明 ── -->
+  <section class="section">
+    <div class="section-label">services used</div>
+    <h2 class="section-title">使ったサービスの役割と<br>無料の範囲</h2>
+    <p style="font-size:13px; color:var(--ink-muted); margin-bottom:24px;">▼ をタップすると詳細が開く</p>
+
+    <div class="service-grid">
+
+      <!-- Claude -->
+      <div class="service-card open">
+        <div class="service-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="service-icon" style="background:#1a1a1a; color:#c4873a;">🤖</div>
+          <div class="service-name-wrap">
+            <div class="service-name">Claude / Claude Code</div>
+            <div class="service-type">AI アシスタント — Anthropic</div>
+          </div>
+          <div class="service-toggle">▼</div>
+        </div>
+        <div class="service-body">
+          <p class="service-desc">会話でコードを書いてもらえるAI。「こういうものが作りたい」と話すだけで、HTMLやJavaScriptを書いてくれる。Claude Codeはターミナル（黒い画面）から使うバージョンで、ファイルを直接作ったり編集したりできる。</p>
+          <p class="service-role"><strong>このアプリでの役割：</strong>アプリ全体のコードを書いてもらった。デバッグ（バグ直し）も全部お願いした。</p>
+          <div class="free-box free-caution">
+            <div class="free-box-label">💰 料金メモ</div>
+            <div class="free-box-text">claude.ai は無料プランあり（メッセージ数に上限あり）。Claude Code は有料プラン（Pro）が実質必要。月$20〜。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DeepL API -->
+      <div class="service-card">
+        <div class="service-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="service-icon" style="background:#0F2B46; color:#fff;">🌐</div>
+          <div class="service-name-wrap">
+            <div class="service-name">DeepL API</div>
+            <div class="service-type">翻訳サービス — DeepL</div>
+          </div>
+          <div class="service-toggle">▼</div>
+        </div>
+        <div class="service-body">
+          <p class="service-desc">高精度な翻訳エンジン。APIとして使うと、自分のアプリに翻訳機能を組み込める。「日本語→英語・フランス語・韓国語…」をボタン一発でやってくれる。</p>
+          <p class="service-role"><strong>このアプリでの役割：</strong>フレーズ入力時の自動翻訳。日本語を入力して「翻訳」ボタンを押すと各言語に変換される。</p>
+          <div class="free-box free-ok">
+            <div class="free-box-label">✓ 無料の範囲</div>
+            <div class="free-box-text">月500,000文字まで無料（DeepL API Free）。個人の語学学習なら余裕でおさまる量。クレジットカード登録不要。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GitHub -->
+      <div class="service-card">
+        <div class="service-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="service-icon" style="background:#24292e; color:#fff;">🐙</div>
+          <div class="service-name-wrap">
+            <div class="service-name">GitHub</div>
+            <div class="service-type">コード管理 — Microsoft</div>
+          </div>
+          <div class="service-toggle">▼</div>
+        </div>
+        <div class="service-body">
+          <p class="service-desc">コードを保管・管理する場所。Googleドキュメントのコード版みたいなイメージ。変更履歴が全部残るので「前のバージョンに戻したい」が簡単にできる。Vercelと連携して公開するためにも必要。</p>
+          <p class="service-role"><strong>このアプリでの役割：</strong>language-note.htmlの保管場所。更新するたびにここにアップロードする。</p>
+          <div class="free-box free-ok">
+            <div class="free-box-label">✓ 無料の範囲</div>
+            <div class="free-box-text">個人の公開・非公開リポジトリは無料で無制限。今回の用途は完全無料でOK。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vercel -->
+      <div class="service-card">
+        <div class="service-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="service-icon" style="background:#000; color:#fff; font-size:18px;">▲</div>
+          <div class="service-name-wrap">
+            <div class="service-name">Vercel（またはNetlify）</div>
+            <div class="service-type">ホスティング / 公開</div>
+          </div>
+          <div class="service-toggle">▼</div>
+        </div>
+        <div class="service-body">
+          <p class="service-desc">GitHubに置いたファイルをURLとして公開してくれるサービス。「https://〇〇.vercel.app」みたいなアドレスが発行される。GitHubを更新するだけで自動で反映される。</p>
+          <p class="service-role"><strong>このアプリでの役割：</strong>スマホや別端末からアクセスできるようにする。手元のHTMLファイルをウェブ公開する。</p>
+          <div class="free-box free-ok">
+            <div class="free-box-label">✓ 無料の範囲</div>
+            <div class="free-box-text">個人プロジェクトは無料プランで十分。アクセス数が少ないうちは完全無料。商用・大規模運用になったら有料プランへ。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Drive -->
+      <div class="service-card">
+        <div class="service-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="service-icon" style="background:#e8f0fe; color:#1a73e8; font-size:18px;">▲</div>
+          <div class="service-name-wrap">
+            <div class="service-name">Google ドライブ</div>
+            <div class="service-type">ファイル保管 — Google</div>
+          </div>
+          <div class="service-toggle">▼</div>
+        </div>
+        <div class="service-body">
+          <p class="service-desc">おなじみのクラウドストレージ。アプリのデータ（フレーズ一覧）をJSONファイルとしてエクスポートして、ここに保管しておく。</p>
+          <p class="service-role"><strong>このアプリでの役割：</strong>データのバックアップ。端末を変えたとき・アプリをリセットしたときに読み込み直せる。</p>
+          <div class="free-box free-ok">
+            <div class="free-box-label">✓ 無料の範囲</div>
+            <div class="free-box-text">15GBまで無料。JSONファイルは数KBなので容量はほぼ気にしなくていい。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── アプリの中の仕組み ── -->
+  <section class="section">
+    <div class="section-label">inside the app</div>
+    <h2 class="section-title">アプリの中で<br>使われている仕組み</h2>
+    <p style="font-size:13px; color:var(--ink-muted); margin-bottom:20px;">外部サービスを使わず、ブラウザだけで動いてるもの</p>
+
+    <div class="tech-list">
+      <div class="tech-item">
+        <span class="tech-label">ブラウザ機能</span>
+        <div class="tech-content">
+          <div class="tech-name">Web Speech API（音声読み上げ）</div>
+          <div class="tech-desc">🔊 ボタンを押すとフレーズを読み上げてくれる機能。追加料金なし、ブラウザが持ってる機能をそのまま使ってる。</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <span class="tech-label">ブラウザ機能</span>
+        <div class="tech-content">
+          <div class="tech-name">localStorage（データ保存）</div>
+          <div class="tech-desc">入力したフレーズをブラウザの中に保存する仕組み。ページを閉じても消えない。スマホのメモ帳が端末に保存されるのと同じ感覚。</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <span class="tech-label">ブラウザ機能</span>
+        <div class="tech-content">
+          <div class="tech-name">File System Access API（ファイル保存）</div>
+          <div class="tech-desc">Chromeなどで「保存先を選んでダウンロード」できる機能。Safariでは使えないので、自動的に通常のダウンロードに切り替わるようになってる。</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <span class="tech-label">外部フォント</span>
+        <div class="tech-content">
+          <div class="tech-name">Google Fonts（Noto Sans JP / DM Mono）</div>
+          <div class="tech-desc">日本語と英語を混在させるためのフォント。無料。インターネット接続時に読み込まれる。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="page-footer">
+  language-note.html — made with Claude Code — 2026
+</footer>
+
+</body>
+</html>
