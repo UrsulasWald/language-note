@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>語学ノート — 使い方</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f3;
+    --surface: #ffffff;
+    --border: #e8e2d5;
+    --border-dark: #c8bfaa;
+    --text: #2c2418;
+    --text-muted: #8c7e6a;
+    --text-light: #b5a898;
+    --accent: #c4873a;
+    --tag-ja: #f0ece4;
+    --green: #2d5a1b;
+    --green-bg: #e8f3e8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    padding-bottom: 80px;
+  }
+
+  /* ── Header ── */
+  .hero {
+    background: var(--text);
+    color: var(--bg);
+    padding: 48px 24px 40px;
+  }
+  .hero-mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: #a09080;
+    line-height: 1.7;
+  }
+
+  /* ── Nav ── */
+  .toc {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border-dark);
+    padding: 14px 24px;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .toc::-webkit-scrollbar { display: none; }
+  .toc a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 4px 0;
+    border-bottom: 1px solid transparent;
+    transition: all 0.15s;
+  }
+  .toc a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── Sections ── */
+  .section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 24px 0;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .section h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── Step cards ── */
+  .steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    background: #fdf6ee;
+    border: 1px solid #e8c898;
+    border-radius: 4px;
+    padding: 3px 8px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-body { flex: 1; }
+  .step-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .step-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .step-desc a { color: var(--accent); }
+
+  /* ── Tip / Note ── */
+  .note {
+    background: var(--tag-ja);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+  }
+  .note-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .note p { font-size: 13px; color: var(--text-muted); margin: 0; }
+
+  .good {
+    background: var(--green-bg);
+    border-left: 3px solid var(--green);
+  }
+  .good .note-label { color: var(--green); }
+
+  /* ── Feature list ── */
+  .feature-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+  .feature-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .feature-icon { font-size: 18px; flex-shrink: 0; }
+  .feature-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .feature-text strong { color: var(--text); font-weight: 500; }
+
+  /* ── Divider ── */
+  .divider {
+    max-width: 600px;
+    margin: 40px auto 0;
+    padding: 0 24px;
+    border: none;
+    border-top: 1px dashed var(--border-dark);
+  }
+
+  /* ── URL block ── */
+  .url-block {
+    background: var(--text);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .url-block a {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .url-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #605040;
+    flex-shrink: 0;
+  }
+
+  /* ── Storage visual ── */
+  .storage-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .storage-label-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+  .bar-track {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 4px;
+    width: 0.01%;
+  }
+  .storage-note { font-size: 11px; color: var(--text-light); }
+
+  /* ── Footer ── */
+  .footer {
+    max-width: 600px;
+    margin: 60px auto 0;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-light);
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-mono">// MANUAL · 語学ノート</div>
+  <h1>語学ノート<br>使い方ガイド</h1>
+  <div class="hero-sub">多言語フレーズを一元管理するアプリです。<br>セットアップに10分くらいかかります。</div>
+</div>
+
+<nav class="toc">
+  <a href="#about">アプリについて</a>
+  <a href="#start">はじめ方</a>
+  <a href="#deepl">翻訳APIキー</a>
+  <a href="#backup">データ保存</a>
+  <a href="#features">できること</a>
+</nav>
+
+<!-- ── About ── -->
+<div class="section" id="about">
+  <div class="section-label">01</div>
+  <h2>このアプリについて</h2>
+
+  <div class="feature-grid">
+    <div class="feature-item">
+      <div class="feature-icon">📝</div>
+      <div class="feature-text"><strong>フレーズを登録する</strong><br>日本語を入力すると、登録した言語に自動翻訳されます</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔊</div>
+      <div class="feature-text"><strong>発音を聞く</strong><br>各言語のボタンをタップすると音声で読み上げます</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🌍</div>
+      <div class="feature-text"><strong>言語を自由に追加・整理</strong><br>英・独・仏・蘭・瑞・西・伊・葡・韓・中・露・アラビア語に対応</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📱</div>
+      <div class="feature-text"><strong>スマホでも使える</strong><br>ブラウザで開くだけ。アプリのインストール不要</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="note-label">NOTE</div>
+    <p>データはブラウザ内（このデバイス）に保存されます。PCとスマホでデータを同期するにはエクスポート/インポートを使います。</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── Start ── -->
+<div class="section" id="start">
+  <div class="section-label">02</div>
+  <h2>はじめ方</h2>
+
+  <div class="url-block">
+    <span class="url-label">URL</span>
+    <a href="https://language-note.vercel.app/" target="_blank">
+      language-note.vercel.app
+    </a>
+  </div>
+
+  <p>上のURLをブラウザで開くだけです。インストールは不要。</p>
+
+  <div class="note good">
+    <div class="note-label">iPhone でホーム画面に追加する場合</div>
+    <p>Safariで開く → 下部の共有ボタン（四角から矢印が出てるアイコン）→「ホーム画面に追加」→ アプリっぽく使えます</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── DeepL ── -->
+<div class="section" id="deepl">
+  <div class="section-label">03</div>
+  <h2>翻訳機能のセットアップ</h2>
+
+  <p>自動翻訳を使うには、DeepLという翻訳サービスの無料アカウントが必要です。月50万文字まで無料で使えます（日常使いで上限に達することはほぼないです）。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <div class="step-title">DeepLのアカウントを作る</div>
+        <div class="step-desc"><a href="https://www.deepl.com/ja/pro-api" target="_blank">deepl.com/ja/pro-api</a> にアクセス。「無料でAPIキーを取得」→ メールアドレスで登録。クレジットカード登録不要のプランを選びます。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <div class="step-title">APIキーをコピーする</div>
+        <div class="step-desc">ログイン後、「アカウント」→「APIキー」のページに移動。表示されているキー（英数字の長い文字列）をコピーします。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <div class="step-title">アプリに入力する</div>
+        <div class="step-desc">アプリを開く → ⚙️（右上）→「設定」→「DeepL APIキー」→「設定する」→ コピーしたキーを貼り付けて保存。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="note-label">NOTE</div>
+    <p>APIキーはあなたのブラウザにのみ保存されます。他の人には見えません。デバイスを変えるときは再入力が必要です。</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── Backup ── -->
+<div class="section" id="backup">
+  <div class="section-label">04</div>
+  <h2>データのバックアップと共有</h2>
+
+  <p>フレーズデータはブラウザ内に保存されます。PCとスマホで同じデータを使いたいときや、バックアップしたいときはエクスポート/インポートを使います。</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">書き出す</div>
+      <div class="step-body">
+        <div class="step-title">エクスポート → Googleドライブに保存</div>
+        <div class="step-desc">⚙️ → 設定 →「JSONファイルを書き出す」→ 保存先にGoogleドライブを選ぶ（Chromeなら保存先ダイアログが開きます）。SafariはDownloadsに保存されるので、そこからGoogleドライブに移動。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">読み込む</div>
+      <div class="step-body">
+        <div class="step-title">Googleドライブから → インポート</div>
+        <div class="step-desc">GoogleドライブからJSONファイルをダウンロード → アプリの「JSONファイルを選択」でそのファイルを選ぶ。既存のデータに追加（重複はスキップ）されます。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="storage-bar">
+    <div class="storage-label-row">
+      <span>Googleドライブ 無料容量</span>
+      <span>15 GB</span>
+    </div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:0.01%"></div>
+    </div>
+    <div class="storage-note">語学ノートのJSONファイルは1フレーズあたり約1KB。1000フレーズ登録しても1MB以下。容量はほぼ気にしなくて大丈夫です。</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ── Features ── -->
+<div class="section" id="features">
+  <div class="section-label">05</div>
+  <h2>主な使い方</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">追加</div>
+      <div class="step-body">
+        <div class="step-title">フレーズを追加する</div>
+        <div class="step-desc">「追加する」タブ → 日本語を入力 →「✨ 自動翻訳」→ 翻訳結果を確認して「追加する」。タグをつけておくとカテゴリで絞り込めます。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">編集</div>
+      <div class="step-body">
+        <div class="step-title">フレーズを編集・削除する</div>
+        <div class="step-desc">「フレーズ一覧」でカードを長押し（0.5秒）→ 編集モーダルが開きます。ここから内容の変更・削除ができます。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">表示</div>
+      <div class="step-body">
+        <div class="step-title">翻訳を見る・音声を聞く</div>
+        <div class="step-desc">カードをタップすると各言語の翻訳が展開します。言語ごとの ▶ ボタンで発音を再生。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">設定</div>
+      <div class="step-body">
+        <div class="step-title">言語を増やす・整理する</div>
+        <div class="step-desc">⚙️ → 設定 →「言語の管理」から言語の表示/非表示を切り替え、ドラッグで並び替えができます。非表示にしてもデータは残ります。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  語学ノート · made with ♡ · 2026
+</div>
+
+</body>
+</html>
