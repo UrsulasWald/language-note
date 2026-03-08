@@ -3,24 +3,23 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
-
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { text, target_lang, source_lang } = req.body;
+  const { text, target_lang, source_lang, api_key } = req.body;
 
   if (!text || !target_lang) {
     return res.status(400).json({ error: 'text and target_lang are required' });
   }
 
-  const apiKey = process.env.DEEPL_API_KEY;
+  // ユーザーが送ってきたAPIキーを使う（環境変数は使わない）
+  const apiKey = api_key;
   if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured' });
+    return res.status(403).json({ error: 'API key is required. Please set your DeepL API key in the app settings.' });
   }
 
   const isFree = apiKey.endsWith(':fx');
@@ -29,10 +28,7 @@ export default async function handler(req, res) {
     : 'https://api.deepl.com/v2/translate';
 
   try {
-    const body = new URLSearchParams({
-      text,
-      target_lang,
-    });
+    const body = new URLSearchParams({ text, target_lang });
     if (source_lang) body.append('source_lang', source_lang);
 
     const response = await fetch(baseUrl, {
@@ -45,11 +41,9 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-
     if (!response.ok) {
       return res.status(response.status).json({ error: data.message || 'DeepL error' });
     }
-
     return res.status(200).json(data);
   } catch (e) {
     return res.status(500).json({ error: e.message });
