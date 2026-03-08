@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0062)file:///Users/satomiplatz/Downloads/language-note_fixed_2.html -->
-<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>語学ノート</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -29,62 +29,42 @@
     padding-bottom: 80px;
   }
 
-  /* ── Header ── */
   .header {
     background: var(--surface);
     border-bottom: 2px solid var(--border-dark);
     padding: 18px 16px 14px;
-    position: sticky;
-    top: 0;
-    z-index: 20;
+    position: sticky; top: 0; z-index: 20;
   }
   .header-top { display: flex; align-items: center; justify-content: space-between; }
   .header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.04em; }
   .settings-btn {
     background: none; border: 1px solid var(--border); border-radius: 6px;
     padding: 6px 10px; font-size: 16px; cursor: pointer; color: var(--text-muted);
-    transition: all 0.15s;
   }
-  .settings-btn:active { background: var(--bg); color: var(--accent); border-color: var(--accent); }
   .header-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 5px; }
   .lang-badges { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
   .lang-badge { font-family: 'DM Mono', monospace; font-size: 9px; padding: 3px 8px; border-radius: 2px; font-weight: 500; }
 
-  /* ── Tab bar ── */
   .tab-bar {
-    display: flex;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 15;
+    display: flex; background: var(--surface); border-top: 1px solid var(--border);
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 15;
     padding-bottom: env(safe-area-inset-bottom);
   }
   .tab {
     flex: 1; padding: 12px 8px; text-align: center; font-size: 12px;
     font-weight: 500; color: var(--text-muted); cursor: pointer;
-    border-top: 2px solid transparent; transition: all 0.15s;
-    letter-spacing: 0.03em;
+    border-top: 2px solid transparent; transition: all 0.15s; letter-spacing: 0.03em;
   }
   .tab.active { color: var(--accent); border-top-color: var(--accent); }
 
-  /* ── Panels ── */
   .panel { display: none; padding: 16px; }
   .panel.active { display: block; }
 
-  /* ── Phrase list ── */
   .count-bar { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-light); margin-bottom: 16px; letter-spacing: 0.1em; }
   .count-bar span { color: var(--accent); font-size: 14px; font-weight: 500; }
-  .category-title { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin: 24px 0 8px 2px; }
 
   .phrase-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 6px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
-  .phrase-ja {
-    padding: 12px 14px; font-size: 14px; font-weight: 500;
-    display: flex; align-items: center; gap: 8px; cursor: pointer;
-    user-select: none; -webkit-user-select: none;
-  }
+  .phrase-ja { padding: 12px 14px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; -webkit-user-select: none; }
   .phrase-ja::before { content: '日'; font-family: 'DM Mono', monospace; font-size: 8px; color: var(--text-muted); background: var(--tag-ja); padding: 2px 5px; border-radius: 2px; flex-shrink: 0; }
   .phrase-ja-text { flex: 1; }
   .phrase-expand-icon { font-size: 10px; color: var(--text-light); transition: transform 0.2s; flex-shrink: 0; }
@@ -102,133 +82,65 @@
   .speak-btn:active { border-color: var(--accent); color: var(--accent); transform: scale(0.9); }
   .speak-btn.playing { background: var(--accent); border-color: var(--accent); color: white; }
 
-  /* ── Tag filter ── */
   .tag-filter-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-  .tag-filter-btn {
-    font-family: 'DM Mono', monospace; font-size: 9px; padding: 4px 10px; border-radius: 20px;
-    border: 1px solid var(--border); background: var(--surface); color: var(--text-muted);
-    cursor: pointer; transition: all 0.15s; white-space: nowrap;
-  }
+  .tag-filter-btn { font-family: 'DM Mono', monospace; font-size: 9px; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
   .tag-filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
 
-  /* ── Add form ── */
   .section-title { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
   .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; margin-bottom: 16px; }
   .form-row { margin-bottom: 10px; }
   .form-label { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
   .form-label-text { font-size: 10px; color: var(--text-muted); font-weight: 300; }
-  .form-input, .form-select {
-    width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 4px;
-    font-family: 'Noto Sans JP', sans-serif; font-size: 15px; color: var(--text);
-    background: var(--bg); outline: none; transition: border-color 0.2s; -webkit-appearance: none;
-  }
+  .form-input, .form-select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; font-size: 15px; color: var(--text); background: var(--bg); outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
   .form-input:focus, .form-select:focus { border-color: var(--accent); background: white; }
   .btn-primary { width: 100%; padding: 14px; background: var(--text); color: var(--bg); border: none; border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 4px; transition: background 0.2s; letter-spacing: 0.05em; }
   .btn-primary:active { background: var(--accent); }
   .voice-note { font-size: 11px; color: var(--text-light); margin-top: 10px; line-height: 1.7; padding: 9px 11px; background: var(--tag-ja); border-radius: 4px; }
 
-  /* ── Translate ── */
-  .translate-btn {
-    width: 100%; padding: 11px; background: none; border: 1px dashed var(--border-dark);
-    border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px;
-    color: var(--text-muted); cursor: pointer; margin-bottom: 12px; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
+  .translate-btn { width: 100%; padding: 11px; background: none; border: 1px dashed var(--border-dark); border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; font-size: 13px; color: var(--text-muted); cursor: pointer; margin-bottom: 12px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
   .translate-btn:not(:disabled):active { border-color: var(--accent); color: var(--accent); background: #fdf6ee; }
   .translate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .input-translated { background: #f6fbf6 !important; border-color: #a8d5a8 !important; }
   .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid var(--border-dark); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Settings ── */
+  /* APIキー未設定バナー */
+  .apikey-banner { background: #fff8ee; border: 1px solid #e8c898; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: var(--text-muted); }
+  .apikey-banner a { color: var(--accent); cursor: pointer; text-decoration: underline; }
+  .apikey-banner.hidden { display: none; }
+
   .settings-section { margin-bottom: 28px; }
   .settings-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin-bottom: 10px; }
-  .lang-setting-row {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
-    padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
-    transition: box-shadow 0.15s, opacity 0.15s;
-  }
+  .lang-setting-row { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; transition: box-shadow 0.15s, opacity 0.15s; }
   .lang-setting-row.dragging { opacity: 0.4; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
   .lang-setting-row.drag-over { border-color: var(--accent); border-style: dashed; }
   .lang-setting-row.fixed { background: var(--tag-ja); }
-  .drag-handle {
-    font-size: 16px; color: var(--border-dark); cursor: grab; flex-shrink: 0;
-    padding: 2px 4px; user-select: none; touch-action: none;
-  }
+  .drag-handle { font-size: 16px; color: var(--border-dark); cursor: grab; flex-shrink: 0; padding: 2px 4px; user-select: none; touch-action: none; }
   .drag-handle:active { cursor: grabbing; color: var(--accent); }
   .lang-setting-info { flex: 1; }
   .lang-setting-name { font-size: 14px; font-weight: 500; }
   .lang-setting-code { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 2px; }
-  .remove-btn {
-    background: none; border: 1px solid var(--border); border-radius: 4px;
-    padding: 5px 10px; font-size: 11px; color: var(--text-muted); cursor: pointer;
-    transition: all 0.15s; flex-shrink: 0;
-  }
+  .remove-btn { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 5px 10px; font-size: 11px; color: var(--text-muted); cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
   .remove-btn:active { background: #ffeaea; border-color: var(--danger); color: var(--danger); }
 
-  .add-lang-form { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; }
-  .add-lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-  .color-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
-  .color-label { font-size: 11px; color: var(--text-muted); }
-  .color-swatch { width: 28px; height: 28px; border-radius: 4px; border: 2px solid transparent; cursor: pointer; transition: border-color 0.15s; flex-shrink: 0; }
-  .color-swatch.selected { border-color: var(--text); }
-  .preset-colors { display: flex; gap: 6px; flex-wrap: wrap; }
-
-  /* ── Available langs list ── */
-  .available-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .available-item {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
-    padding: 10px 12px; display: flex; align-items: center; justify-content: space-between;
-    cursor: pointer; transition: border-color 0.15s;
-  }
-  .available-item:active { border-color: var(--accent); }
-  .available-item.added { opacity: 0.4; pointer-events: none; }
-  .available-item-name { font-size: 13px; font-weight: 500; }
-  .available-item-code { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-muted); margin-top: 2px; }
-  .add-icon { font-size: 16px; color: var(--accent); }
-
-  /* ── Spell check modal ── */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-    z-index: 300; align-items: flex-end; justify-content: center;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; align-items: flex-end; justify-content: center; }
   .modal-overlay.show { display: flex; }
-  .modal {
-    background: var(--surface); border-radius: 16px 16px 0 0; padding: 24px 16px 40px;
-    width: 100%; max-width: 480px; max-height: 80vh; overflow-y: auto;
-    animation: slideUp 0.25s ease;
-  }
+  .modal { background: var(--surface); border-radius: 16px 16px 0 0; padding: 24px 16px 40px; width: 100%; max-width: 480px; max-height: 80vh; overflow-y: auto; animation: slideUp 0.25s ease; }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
   .modal-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
   .modal-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
-  .spell-item {
-    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-    padding: 12px 14px; margin-bottom: 10px;
-  }
+  .spell-item { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
   .spell-item-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
   .spell-original { font-size: 13px; color: var(--danger); text-decoration: line-through; }
   .spell-arrow { font-size: 12px; color: var(--text-muted); }
   .spell-suggested { font-size: 13px; font-weight: 500; color: #2d5a1b; }
-  .spell-input {
-    width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 4px;
-    font-family: 'Noto Sans JP', sans-serif; font-size: 14px; background: white;
-    outline: none; transition: border-color 0.2s;
-  }
-  .spell-input:focus { border-color: var(--accent); }
+  .spell-input { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; background: white; outline: none; }
   .modal-actions { display: flex; gap: 8px; margin-top: 16px; }
-  .btn-secondary {
-    flex: 1; padding: 12px; background: none; border: 1px solid var(--border);
-    border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px;
-    color: var(--text-muted); cursor: pointer;
-  }
-  .btn-modal-primary {
-    flex: 2; padding: 12px; background: var(--text); color: var(--bg); border: none;
-    border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px;
-    font-weight: 500; cursor: pointer;
-  }
+  .btn-secondary { flex: 1; padding: 12px; background: none; border: 1px solid var(--border); border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; color: var(--text-muted); cursor: pointer; }
+  .btn-modal-primary { flex: 2; padding: 12px; background: var(--text); color: var(--bg); border: none; border-radius: 4px; font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; }
   .btn-modal-primary:active { background: var(--accent); }
-  .no-errors { font-size: 13px; color: #2d5a1b; padding: 12px; text-align: center; }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--text); color: var(--bg); padding: 10px 20px; border-radius: 100px; font-size: 12px; font-weight: 500; transition: transform 0.3s ease; white-space: nowrap; z-index: 200; }
+
+  .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--text); color: var(--bg); padding: 10px 20px; border-radius: 100px; font-size: 12px; font-weight: 500; transition: transform 0.3s ease; white-space: nowrap; z-index: 200; }
   .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
@@ -237,151 +149,29 @@
 <div class="header">
   <div class="header-top">
     <h1>語学ノート</h1>
-    <button class="settings-btn" onclick="switchTab(&#39;settings&#39;)" title="設定">⚙️</button>
+    <button class="settings-btn" onclick="switchTab('settings')">⚙️</button>
   </div>
-  <div class="header-sub" id="header-sub">EN · DE · FR · NL · SV</div>
-  <div class="lang-badges" id="lang-badges"><span class="lang-badge" style="background:#e8f0f8;color:#1a4a6e">British EN</span><span class="lang-badge" style="background:#e8f3e8;color:#2d5a1b">DE</span><span class="lang-badge" style="background:#f8e8ef;color:#6e1a3a">FR</span><span class="lang-badge" style="background:#f8f0e0;color:#5a3a0a">NL</span><span class="lang-badge" style="background:#e8eef8;color:#1a3d6e">SV</span></div>
+  <div class="header-sub" id="header-sub"></div>
+  <div class="lang-badges" id="lang-badges"></div>
 </div>
 
 <div class="tab-bar">
-  <div class="tab active" onclick="switchTab(&#39;list&#39;)" id="tab-list">フレーズ一覧</div>
-  <div class="tab" onclick="switchTab(&#39;add&#39;)" id="tab-add">追加する</div>
-  <div class="tab" onclick="switchTab(&#39;settings&#39;)" id="tab-settings">設定</div>
+  <div class="tab active" onclick="switchTab('list')" id="tab-list">フレーズ一覧</div>
+  <div class="tab" onclick="switchTab('add')" id="tab-add">追加する</div>
+  <div class="tab" onclick="switchTab('settings')" id="tab-settings">設定</div>
 </div>
 
 <div class="panel active" id="panel-list">
-  <div class="count-bar"><span id="total-count">5</span> フレーズ</div>
+  <div class="count-bar"><span id="total-count">0</span> フレーズ</div>
   <div class="tag-filter-bar" id="tag-filter-bar"></div>
-  <div id="phrases-container"><div><div class="category-title">— あいさつ</div><div class="phrase-card"><div class="phrase-ja">おはようございます</div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f0f8;color:#1a4a6e">EN</span>
-              <span class="lang-text" style="color:#1a4a6e">Good morning</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Good morning&#39;,&#39;en&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f3e8;color:#2d5a1b">DE</span>
-              <span class="lang-text" style="color:#2d5a1b">Guten Morgen</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Guten Morgen&#39;,&#39;de&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8e8ef;color:#6e1a3a">FR</span>
-              <span class="lang-text" style="color:#6e1a3a">Bonjour</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Bonjour&#39;,&#39;fr&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8f0e0;color:#5a3a0a">NL</span>
-              <span class="lang-text" style="color:#5a3a0a">Goedemorgen</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Goedemorgen&#39;,&#39;nl&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8eef8;color:#1a3d6e">SV</span>
-              <span class="lang-text" style="color:#1a3d6e">God morgon</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;God morgon&#39;,&#39;sv&#39;)">▶</button>
-            </div></div><div class="phrase-card"><div class="phrase-ja">ありがとうございます</div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f0f8;color:#1a4a6e">EN</span>
-              <span class="lang-text" style="color:#1a4a6e">Thank you very much</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Thank you very much&#39;,&#39;en&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f3e8;color:#2d5a1b">DE</span>
-              <span class="lang-text" style="color:#2d5a1b">Vielen Dank</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Vielen Dank&#39;,&#39;de&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8e8ef;color:#6e1a3a">FR</span>
-              <span class="lang-text" style="color:#6e1a3a">Merci beaucoup</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Merci beaucoup&#39;,&#39;fr&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8f0e0;color:#5a3a0a">NL</span>
-              <span class="lang-text" style="color:#5a3a0a">Hartelijk dank</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Hartelijk dank&#39;,&#39;nl&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8eef8;color:#1a3d6e">SV</span>
-              <span class="lang-text" style="color:#1a3d6e">Tack så mycket</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Tack så mycket&#39;,&#39;sv&#39;)">▶</button>
-            </div></div><div class="phrase-card"><div class="phrase-ja">元気ですか？</div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f0f8;color:#1a4a6e">EN</span>
-              <span class="lang-text" style="color:#1a4a6e">How are you?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;How are you?&#39;,&#39;en&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f3e8;color:#2d5a1b">DE</span>
-              <span class="lang-text" style="color:#2d5a1b">Wie geht es Ihnen?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Wie geht es Ihnen?&#39;,&#39;de&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8e8ef;color:#6e1a3a">FR</span>
-              <span class="lang-text" style="color:#6e1a3a">Comment allez-vous ?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Comment allez-vous ?&#39;,&#39;fr&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8f0e0;color:#5a3a0a">NL</span>
-              <span class="lang-text" style="color:#5a3a0a">Hoe gaat het?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Hoe gaat het?&#39;,&#39;nl&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8eef8;color:#1a3d6e">SV</span>
-              <span class="lang-text" style="color:#1a3d6e">Hur mår du?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Hur mår du?&#39;,&#39;sv&#39;)">▶</button>
-            </div></div></div><div><div class="category-title">— 日常会話</div><div class="phrase-card"><div class="phrase-ja">これはいくらですか？</div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f0f8;color:#1a4a6e">EN</span>
-              <span class="lang-text" style="color:#1a4a6e">How much is this?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;How much is this?&#39;,&#39;en&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f3e8;color:#2d5a1b">DE</span>
-              <span class="lang-text" style="color:#2d5a1b">Wie viel kostet das?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Wie viel kostet das?&#39;,&#39;de&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8e8ef;color:#6e1a3a">FR</span>
-              <span class="lang-text" style="color:#6e1a3a">C'est combien ?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;C\&#39;est combien ?&#39;,&#39;fr&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8f0e0;color:#5a3a0a">NL</span>
-              <span class="lang-text" style="color:#5a3a0a">Hoeveel kost dit?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Hoeveel kost dit?&#39;,&#39;nl&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8eef8;color:#1a3d6e">SV</span>
-              <span class="lang-text" style="color:#1a3d6e">Hur mycket kostar det?</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Hur mycket kostar det?&#39;,&#39;sv&#39;)">▶</button>
-            </div></div></div><div><div class="category-title">— 食べ物・飲み物</div><div class="phrase-card"><div class="phrase-ja">お水をください</div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f0f8;color:#1a4a6e">EN</span>
-              <span class="lang-text" style="color:#1a4a6e">Water, please</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Water, please&#39;,&#39;en&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8f3e8;color:#2d5a1b">DE</span>
-              <span class="lang-text" style="color:#2d5a1b">Wasser, bitte</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Wasser, bitte&#39;,&#39;de&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8e8ef;color:#6e1a3a">FR</span>
-              <span class="lang-text" style="color:#6e1a3a">De l'eau, s'il vous plaît</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;De l\&#39;eau, s\&#39;il vous plaît&#39;,&#39;fr&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#f8f0e0;color:#5a3a0a">NL</span>
-              <span class="lang-text" style="color:#5a3a0a">Water, alsjeblieft</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Water, alsjeblieft&#39;,&#39;nl&#39;)">▶</button>
-            </div>
-            <div class="lang-row">
-              <span class="lang-label" style="background:#e8eef8;color:#1a3d6e">SV</span>
-              <span class="lang-text" style="color:#1a3d6e">Vatten, tack</span>
-              <button class="speak-btn" onclick="speakBtn(this,&#39;Vatten, tack&#39;,&#39;sv&#39;)">▶</button>
-            </div></div></div></div>
+  <div id="phrases-container"></div>
 </div>
 
 <div class="panel" id="panel-add">
   <div class="section-title">// 新しいフレーズを追加</div>
+  <div id="apikey-banner-add" class="apikey-banner hidden">
+    ⚠️ DeepL APIキーが未設定です。自動翻訳を使うには<a onclick="switchTab('settings')">設定する →</a>
+  </div>
   <div class="form-card">
     <div class="form-row">
       <div class="form-label">
@@ -393,42 +183,7 @@
     <button class="translate-btn" id="translate-btn" onclick="autoTranslate()">
       ✨ 他の言語に自動翻訳する
     </button>
-    <div id="lang-inputs">
-      <div class="form-row">
-        <div class="form-label">
-          <span class="lang-label" style="background:#e8f0f8;color:#1a4a6e">EN</span>
-          <span class="form-label-text">English</span>
-        </div>
-        <input type="text" id="input-en" class="form-input" placeholder="" oninput="this.classList.remove(&#39;input-translated&#39;)">
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <span class="lang-label" style="background:#e8f3e8;color:#2d5a1b">DE</span>
-          <span class="form-label-text">Deutsch</span>
-        </div>
-        <input type="text" id="input-de" class="form-input" placeholder="" oninput="this.classList.remove(&#39;input-translated&#39;)">
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <span class="lang-label" style="background:#f8e8ef;color:#6e1a3a">FR</span>
-          <span class="form-label-text">Français</span>
-        </div>
-        <input type="text" id="input-fr" class="form-input" placeholder="" oninput="this.classList.remove(&#39;input-translated&#39;)">
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <span class="lang-label" style="background:#f8f0e0;color:#5a3a0a">NL</span>
-          <span class="form-label-text">Nederlands</span>
-        </div>
-        <input type="text" id="input-nl" class="form-input" placeholder="" oninput="this.classList.remove(&#39;input-translated&#39;)">
-      </div>
-      <div class="form-row">
-        <div class="form-label">
-          <span class="lang-label" style="background:#e8eef8;color:#1a3d6e">SV</span>
-          <span class="form-label-text">Svenska</span>
-        </div>
-        <input type="text" id="input-sv" class="form-input" placeholder="" oninput="this.classList.remove(&#39;input-translated&#39;)">
-      </div></div>
+    <div id="lang-inputs"></div>
     <div class="form-row">
       <div class="form-label"><span class="form-label-text">タグ（スペース区切りで複数入力可）</span></div>
       <input type="text" id="input-tags" class="form-input" placeholder="例：あいさつ 毎日 重要">
@@ -508,7 +263,7 @@
 <!-- Spell check modal -->
 <div class="modal-overlay" id="spell-modal">
   <div class="modal">
-    <div class="modal-title" id="spell-modal-title">スペルチェック</div>
+    <div class="modal-title">スペルチェック</div>
     <div class="modal-sub" id="spell-modal-sub"></div>
     <div id="spell-items"></div>
     <div class="modal-actions">
@@ -518,76 +273,65 @@
   </div>
 </div>
 
-<div class="toast" id="toast">データを読み込みました ✓</div>
+<div class="toast" id="toast"></div>
 
 <script>
-  // ── 全対応言語マスター ──
   const ALL_LANGS = [
-    { code: 'en', label: 'EN', name: 'English',     bcp47: 'en-GB',  britishOnly: true, color: '#1a4a6e', bg: '#e8f0f8' },
-    { code: 'de', label: 'DE', name: 'Deutsch',     bcp47: 'de-DE',  color: '#2d5a1b', bg: '#e8f3e8' },
-    { code: 'fr', label: 'FR', name: 'Français',    bcp47: 'fr-FR',  color: '#6e1a3a', bg: '#f8e8ef' },
-    { code: 'nl', label: 'NL', name: 'Nederlands',  bcp47: 'nl-NL',  color: '#5a3a0a', bg: '#f8f0e0' },
-    { code: 'sv', label: 'SV', name: 'Svenska',     bcp47: 'sv-SE',  color: '#1a3d6e', bg: '#e8eef8' },
-    { code: 'es', label: 'ES', name: 'Español',     bcp47: 'es-ES',  color: '#6e2d1a', bg: '#f8ede8' },
-    { code: 'it', label: 'IT', name: 'Italiano',    bcp47: 'it-IT',  color: '#5a1a6e', bg: '#f0e8f8' },
-    { code: 'pt', label: 'PT', name: 'Português',   bcp47: 'pt-PT',  color: '#1a6e3a', bg: '#e8f8ee' },
-    { code: 'ko', label: 'KO', name: '한국어',       bcp47: 'ko-KR',  color: '#3a1a6e', bg: '#ede8f8' },
-    { code: 'zh', label: 'ZH', name: '中文',         bcp47: 'zh-CN',  color: '#6e1a1a', bg: '#f8e8e8' },
-    { code: 'ru', label: 'RU', name: 'Русский',     bcp47: 'ru-RU',  color: '#1a5a5a', bg: '#e8f4f4' },
-    { code: 'ar', label: 'AR', name: 'العربية',     bcp47: 'ar-SA',  color: '#3d3d1a', bg: '#f4f4e0' },
+    { code: 'en', label: 'EN', name: 'English',    bcp47: 'en-GB', britishOnly: true, color: '#1a4a6e', bg: '#e8f0f8' },
+    { code: 'de', label: 'DE', name: 'Deutsch',    bcp47: 'de-DE', color: '#2d5a1b', bg: '#e8f3e8' },
+    { code: 'fr', label: 'FR', name: 'Français',   bcp47: 'fr-FR', color: '#6e1a3a', bg: '#f8e8ef' },
+    { code: 'nl', label: 'NL', name: 'Nederlands', bcp47: 'nl-NL', color: '#5a3a0a', bg: '#f8f0e0' },
+    { code: 'sv', label: 'SV', name: 'Svenska',    bcp47: 'sv-SE', color: '#1a3d6e', bg: '#e8eef8' },
+    { code: 'es', label: 'ES', name: 'Español',    bcp47: 'es-ES', color: '#6e2d1a', bg: '#f8ede8' },
+    { code: 'it', label: 'IT', name: 'Italiano',   bcp47: 'it-IT', color: '#5a1a6e', bg: '#f0e8f8' },
+    { code: 'pt', label: 'PT', name: 'Português',  bcp47: 'pt-PT', color: '#1a6e3a', bg: '#e8f8ee' },
+    { code: 'ko', label: 'KO', name: '한국어',      bcp47: 'ko-KR', color: '#3a1a6e', bg: '#ede8f8' },
+    { code: 'zh', label: 'ZH', name: '中文',        bcp47: 'zh-CN', color: '#6e1a1a', bg: '#f8e8e8' },
+    { code: 'ru', label: 'RU', name: 'Русский',    bcp47: 'ru-RU', color: '#1a5a5a', bg: '#e8f4f4' },
+    { code: 'ar', label: 'AR', name: 'العربية',    bcp47: 'ar-SA', color: '#3d3d1a', bg: '#f4f4e0' },
   ];
 
-  // ── 全言語を使用（表示/非表示はhiddenLangCodesで管理）──
   const activeLangCodes = ALL_LANGS.map(l => l.code);
-  // 非表示言語（データは保持、画面には出さない）
   let hiddenLangCodes = [];
-
-  // ── フレーズデータ ──
   let phrases = [
-    { ja:"おはようございます", en:"Good morning",       de:"Guten Morgen",         fr:"Bonjour",                    nl:"Goedemorgen",       sv:"God morgon",             es:"Buenos días",         it:"Buongiorno",          pt:"Bom dia",              ko:"좋은 아침이에요",     zh:"早上好",       ru:"Доброе утро",      ar:"صباح الخير",      tags:["あいさつ"] },
-    { ja:"ありがとうございます", en:"Thank you very much", de:"Vielen Dank",         fr:"Merci beaucoup",             nl:"Hartelijk dank",    sv:"Tack så mycket",         es:"Muchas gracias",      it:"Grazie mille",        pt:"Muito obrigado",       ko:"감사합니다",         zh:"非常感谢",     ru:"Большое спасибо",  ar:"شكراً جزيلاً",    tags:["あいさつ"] },
-    { ja:"元気ですか？",        en:"How are you?",        de:"Wie geht es Ihnen?",   fr:"Comment allez-vous ?",       nl:"Hoe gaat het?",     sv:"Hur mår du?",            es:"¿Cómo está usted?",  it:"Come sta?",           pt:"Como vai?",            ko:"잘 지내세요?",       zh:"你好吗？",     ru:"Как дела?",        ar:"كيف حالك؟",       tags:["あいさつ"] },
-    { ja:"これはいくらですか？",  en:"How much is this?",  de:"Wie viel kostet das?", fr:"C'est combien ?",            nl:"Hoeveel kost dit?", sv:"Hur mycket kostar det?", es:"¿Cuánto cuesta esto?", it:"Quanto costa questo?", pt:"Quanto custa isto?",  ko:"이건 얼마예요?",     zh:"这个多少钱？",  ru:"Сколько это стоит?", ar:"بكم هذا؟",       tags:["日常会話"] },
-    { ja:"お水をください",       en:"Water, please",      de:"Wasser, bitte",        fr:"De l'eau, s'il vous plaît",  nl:"Water, alsjeblieft", sv:"Vatten, tack",          es:"Agua, por favor",     it:"Acqua, per favore",   pt:"Água, por favor",      ko:"물 주세요",          zh:"请给我水",     ru:"Воды, пожалуйста", ar:"ماء من فضلك",     tags:["食べ物・飲み物"] },
+    { ja:"おはようございます", en:"Good morning", de:"Guten Morgen", fr:"Bonjour", nl:"Goedemorgen", sv:"God morgon", es:"Buenos días", it:"Buongiorno", pt:"Bom dia", ko:"좋은 아침이에요", zh:"早上好", ru:"Доброе утро", ar:"صباح الخير", tags:["あいさつ"] },
+    { ja:"ありがとうございます", en:"Thank you very much", de:"Vielen Dank", fr:"Merci beaucoup", nl:"Hartelijk dank", sv:"Tack så mycket", es:"Muchas gracias", it:"Grazie mille", pt:"Muito obrigado", ko:"감사합니다", zh:"非常感谢", ru:"Большое спасибо", ar:"شكراً جزيلاً", tags:["あいさつ"] },
+    { ja:"元気ですか？", en:"How are you?", de:"Wie geht es Ihnen?", fr:"Comment allez-vous ?", nl:"Hoe gaat het?", sv:"Hur mår du?", es:"¿Cómo está usted?", it:"Come sta?", pt:"Como vai?", ko:"잘 지내세요?", zh:"你好吗？", ru:"Как дела?", ar:"كيف حالك؟", tags:["あいさつ"] },
+    { ja:"これはいくらですか？", en:"How much is this?", de:"Wie viel kostet das?", fr:"C'est combien ?", nl:"Hoeveel kost dit?", sv:"Hur mycket kostar det?", es:"¿Cuánto cuesta esto?", it:"Quanto costa questo?", pt:"Quanto custa isto?", ko:"이건 얼마예요?", zh:"这个多少钱？", ru:"Сколько это стоит?", ar:"بكم هذا؟", tags:["日常会話"] },
+    { ja:"お水をください", en:"Water, please", de:"Wasser, bitte", fr:"De l'eau, s'il vous plaît", nl:"Water, alsjeblieft", sv:"Vatten, tack", es:"Agua, por favor", it:"Acqua, per favore", pt:"Água, por favor", ko:"물 주세요", zh:"请给我水", ru:"Воды, пожалуйста", ar:"ماء من فضلك", tags:["食べ物・飲み物"] },
   ];
 
   let currentBtn = null;
+  let deeplApiKey = '';
 
-  // ── ヘルパー ──
   function getLang(code) { return ALL_LANGS.find(l => l.code === code); }
   function getActiveLangs() { return activeLangCodes.filter(c => !hiddenLangCodes.includes(c)).map(getLang).filter(Boolean); }
-  function getAllRegisteredLangs() { return ALL_LANGS; }
+  function escapeAttr(str) { return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
 
-  function escapeAttr(str) {
-    return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-  }
-
-  // ── タブ切り替え ──
   function switchTab(name) {
     const alreadyActive = document.getElementById('tab-' + name).classList.contains('active');
-    if (alreadyActive) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
+    if (alreadyActive) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
     ['list','add','settings'].forEach(t => {
       document.getElementById('panel-' + t).classList.toggle('active', t === name);
       document.getElementById('tab-' + t).classList.toggle('active', t === name);
     });
     if (name === 'settings') renderSettings();
-    if (name === 'add') renderLangInputs();
+    if (name === 'add') { renderLangInputs(); updateApikeyBanner(); }
   }
 
-  // ── ヘッダー更新 ──
+  function updateApikeyBanner() {
+    const b = document.getElementById('apikey-banner-add');
+    if (b) b.classList.toggle('hidden', !!deeplApiKey);
+  }
+
   function updateHeader() {
     const langs = getActiveLangs();
     document.getElementById('header-sub').textContent = langs.map(l => l.label).join(' · ');
-    const badgesEl = document.getElementById('lang-badges');
-    badgesEl.innerHTML = langs.map(l =>
+    document.getElementById('lang-badges').innerHTML = langs.map(l =>
       `<span class="lang-badge" style="background:${l.bg};color:${l.color}">${l.britishOnly ? 'British ' : ''}${l.label}</span>`
     ).join('');
   }
 
-  // ── フレーズ一覧 ──
   let activeTagFilter = null;
 
   function getAllTags() {
@@ -599,47 +343,29 @@
   function renderTagFilter() {
     const bar = document.getElementById('tag-filter-bar');
     const tags = getAllTags();
-    if (tags.length === 0) { bar.innerHTML = ''; return; }
+    if (!tags.length) { bar.innerHTML = ''; return; }
     bar.innerHTML = `<button class="tag-filter-btn ${!activeTagFilter ? 'active' : ''}" onclick="setTagFilter(null)">すべて</button>` +
       tags.map(t => `<button class="tag-filter-btn ${activeTagFilter === t ? 'active' : ''}" onclick="setTagFilter('${escapeAttr(t)}')">${t}</button>`).join('');
   }
 
-  function setTagFilter(tag) {
-    activeTagFilter = tag;
-    renderTagFilter();
-    renderPhrases();
-  }
+  function setTagFilter(tag) { activeTagFilter = tag; renderTagFilter(); renderPhrases(); }
 
   function renderPhrases() {
     const container = document.getElementById('phrases-container');
     const langs = getActiveLangs();
     container.innerHTML = '';
+    const filtered = activeTagFilter ? phrases.filter(p => (p.tags||[]).includes(activeTagFilter)) : phrases;
 
-    const filtered = activeTagFilter
-      ? phrases.filter(p => (p.tags || []).includes(activeTagFilter))
-      : phrases;
-
-    filtered.forEach((phrase) => {
+    filtered.forEach(phrase => {
       const globalIdx = phrases.indexOf(phrase);
       const card = document.createElement('div');
       card.className = 'phrase-card';
 
-      // 長押し検知
       let pressTimer = null;
-      const startPress = (e) => {
-        pressTimer = setTimeout(() => {
-          pressTimer = null;
-          openEditModal(globalIdx);
-        }, 500);
-      };
+      const startPress = () => { pressTimer = setTimeout(() => { pressTimer = null; openEditModal(globalIdx); }, 500); };
       const cancelPress = () => { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } };
-      const endPress = (e) => {
-        if (pressTimer) {
-          clearTimeout(pressTimer);
-          pressTimer = null;
-          card.classList.toggle('expanded');
-        }
-      };
+      const endPress = () => { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; card.classList.toggle('expanded'); } };
+
       card.addEventListener('mousedown', startPress);
       card.addEventListener('touchstart', startPress, { passive: true });
       card.addEventListener('mousemove', cancelPress);
@@ -647,30 +373,24 @@
       card.addEventListener('mouseup', endPress);
       card.addEventListener('touchend', endPress);
 
-      const tags = (phrase.tags || []);
-      const tagsHtml = tags.length
-        ? `<div class="phrase-tags">${tags.map(t => `<span class="phrase-tag">${t}</span>`).join('')}</div>`
-        : '';
+      const tagsHtml = (phrase.tags||[]).length
+        ? `<div class="phrase-tags">${(phrase.tags||[]).map(t=>`<span class="phrase-tag">${t}</span>`).join('')}</div>` : '';
 
       let langsHtml = '<div class="phrase-langs">';
       langs.forEach(lang => {
         const text = phrase[lang.code] || '—';
-        langsHtml += `
-          <div class="lang-row">
-            <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
-            <span class="lang-text" style="color:${lang.color}">${text}</span>
-            <button class="speak-btn" onmousedown="event.stopPropagation()" onmouseup="event.stopPropagation()" ontouchstart="event.stopPropagation()" ontouchend="event.stopPropagation()" onclick="event.stopPropagation();speakBtn(this,'${escapeAttr(text)}','${lang.code}')">▶</button>
-          </div>`;
+        langsHtml += `<div class="lang-row">
+          <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
+          <span class="lang-text" style="color:${lang.color}">${text}</span>
+          <button class="speak-btn"
+            onmousedown="event.stopPropagation()" onmouseup="event.stopPropagation()"
+            ontouchstart="event.stopPropagation()" ontouchend="event.stopPropagation()"
+            onclick="event.stopPropagation();speakBtn(this,'${escapeAttr(text)}','${lang.code}')">▶</button>
+        </div>`;
       });
       langsHtml += '</div>';
 
-      card.innerHTML = `
-        <div class="phrase-ja">
-          <span class="phrase-ja-text">${phrase.ja}${tagsHtml}</span>
-          <span class="phrase-expand-icon">▼</span>
-        </div>
-        ${langsHtml}`;
-
+      card.innerHTML = `<div class="phrase-ja"><span class="phrase-ja-text">${phrase.ja}${tagsHtml}</span><span class="phrase-expand-icon">▼</span></div>${langsHtml}`;
       container.appendChild(card);
     });
 
@@ -678,156 +398,106 @@
     renderTagFilter();
   }
 
-  // ── DeepL言語コードマッピング ──
-  // DeepLのtarget_langコードはアプリの言語コードと少し違う
-  const DEEPL_LANG_MAP = {
-    ja: 'JA', en: 'EN-GB', de: 'DE', fr: 'FR',
-    nl: 'NL', sv: 'SV', es: 'ES', it: 'IT',
-    pt: 'PT-PT', ko: 'KO', zh: 'ZH', ru: 'RU',
-  };
+  const DEEPL_LANG_MAP = { ja:'JA', en:'EN-GB', de:'DE', fr:'FR', nl:'NL', sv:'SV', es:'ES', it:'IT', pt:'PT-PT', ko:'KO', zh:'ZH', ru:'RU' };
 
-  // ── DeepL APIキー管理 ──
-  let deeplApiKey = '';
+  function loadDeeplKey() { try { deeplApiKey = localStorage.getItem('deepl-api-key') || ''; } catch(e) {} }
+  function saveDeeplKey(key) { deeplApiKey = key.trim(); try { localStorage.setItem('deepl-api-key', deeplApiKey); } catch(e) {} }
 
-  function loadDeeplKey() {
-    try { deeplApiKey = localStorage.getItem('deepl-api-key') || ''; } catch(e) {}
-  }
-
-  function saveDeeplKey(key) {
-    deeplApiKey = key.trim();
-    try { localStorage.setItem('deepl-api-key', deeplApiKey); } catch(e) {}
-  }
-
-  function openApiKeyModal() {
-    document.getElementById('apikey-input').value = deeplApiKey;
-    document.getElementById('apikey-modal').classList.add('show');
-  }
-
-  function closeApiKeyModal() {
-    document.getElementById('apikey-modal').classList.remove('show');
-  }
+  function openApiKeyModal() { document.getElementById('apikey-input').value = deeplApiKey; document.getElementById('apikey-modal').classList.add('show'); }
+  function closeApiKeyModal() { document.getElementById('apikey-modal').classList.remove('show'); }
 
   function saveApiKey() {
     const val = document.getElementById('apikey-input').value.trim();
     if (!val) { showToast('APIキーを入力してください'); return; }
     saveDeeplKey(val);
     closeApiKeyModal();
+    updateApikeyBanner();
+    renderSettings();
     showToast('APIキーを保存しました ✓');
-    autoTranslate();
   }
 
-  // ── 自動翻訳（DeepL API） ──
+  // ── 翻訳ヘルパー（ユーザーのAPIキーをリクエストに含めて送る）──
+  async function translateOne(text, targetLang, sourceLang) {
+    if (!deeplApiKey) throw new Error('NO_API_KEY');
+    const res = await fetch('/api/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text,
+        target_lang: targetLang,
+        source_lang: sourceLang,
+        api_key: deeplApiKey,
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(`DeepL error ${res.status}: ${err.error || ''}`);
+    }
+    const data = await res.json();
+    return data.translations?.[0]?.text || '';
+  }
+
   async function autoTranslate() {
+    if (!deeplApiKey) { showToast('DeepL APIキーを設定してください'); openApiKeyModal(); return; }
+
     const jaEl = document.getElementById('input-ja');
     const jaText = jaEl ? jaEl.value.trim() : '';
+    let sourceText = '', sourceLangCode = null;
 
-    let sourceText = '';
-    let sourceLangCode = null;
-
-    if (jaText) {
-      sourceText = jaText;
-      sourceLangCode = 'JA';
-    } else {
+    if (jaText) { sourceText = jaText; sourceLangCode = 'JA'; }
+    else {
       for (const lang of getActiveLangs()) {
         const el = document.getElementById('input-' + lang.code);
-        if (el && el.value.trim()) {
-          sourceText = el.value.trim();
-          sourceLangCode = DEEPL_LANG_MAP[lang.code] || lang.code.toUpperCase();
-          break;
-        }
+        if (el && el.value.trim()) { sourceText = el.value.trim(); sourceLangCode = DEEPL_LANG_MAP[lang.code]; break; }
       }
     }
-
-    if (!sourceText) {
-      showToast('まず日本語かいずれかの言語を入力してください');
-      return;
-    }
+    if (!sourceText) { showToast('まず日本語かいずれかの言語を入力してください'); return; }
 
     const btn = document.getElementById('translate-btn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> 翻訳中...';
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 翻訳中...';
 
-    // 翻訳が必要な言語を収集（表示中・非表示問わず全登録言語）
     const targets = [];
     if (!jaText) targets.push('ja');
-    getAllRegisteredLangs().forEach(lang => {
+    ALL_LANGS.forEach(lang => {
       const el = document.getElementById('input-' + lang.code);
-      const hasInput = el && el.value.trim();
-      if (!hasInput) targets.push(lang.code);
+      if (!el || !el.value.trim()) targets.push(lang.code);
     });
 
-    if (targets.length === 0) {
-      showToast('すでにすべての言語が入力されています');
-      btn.disabled = false;
-      btn.innerHTML = '✨ 他の言語に自動翻訳する';
-      return;
-    }
-
-    // Vercelプロキシ経由でDeepLを叩く（CORSを回避）
     try {
-      const results = await Promise.all(
-        targets.map(async (code) => {
-          const deepLTarget = DEEPL_LANG_MAP[code];
-          if (!deepLTarget) return null;
-
-          const res = await fetch('/api/translate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              text: sourceText,
-              target_lang: deepLTarget,
-              source_lang: sourceLangCode ? sourceLangCode.split('-')[0] : undefined,
-            }),
-          });
-
-          if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(`DeepL error ${res.status}: ${err.error || ''}`);
-          }
-
-          const data = await res.json();
-          return { code, text: data.translations?.[0]?.text || '' };
-        })
-      );
-
       if (!window._pendingTranslations) window._pendingTranslations = {};
-
+      const results = await Promise.all(targets.map(async code => {
+        const deepLTarget = DEEPL_LANG_MAP[code];
+        if (!deepLTarget) return null;
+        const sl = sourceLangCode ? sourceLangCode.split('-')[0] : undefined;
+        const text = await translateOne(sourceText, deepLTarget, sl);
+        return { code, text };
+      }));
       results.forEach(r => {
         if (!r || !r.text) return;
         const el = document.getElementById('input-' + r.code);
-        if (el) {
-          el.value = r.text;
-          el.classList.add('input-translated');
-        }
-        // 翻訳結果は全言語分pendingに保存（非表示言語も含む）
+        if (el) { el.value = r.text; el.classList.add('input-translated'); }
         window._pendingTranslations[r.code] = r.text;
       });
-
       showToast('翻訳しました ✓');
-    } catch (e) {
-      console.error(e);
-      showToast('翻訳に失敗しました。しばらく待ってから再試行してください。');
+    } catch(e) {
+      if (e.message === 'NO_API_KEY') { showToast('DeepL APIキーを設定してください'); openApiKeyModal(); }
+      else { showToast('翻訳に失敗しました'); console.error(e); }
     }
 
-    btn.disabled = false;
-    btn.innerHTML = '✨ 他の言語に自動翻訳する';
+    btn.disabled = false; btn.innerHTML = '✨ 他の言語に自動翻訳する';
   }
 
-  // ── 追加フォーム ──
   function renderLangInputs() {
-    const langs = getActiveLangs();
-    document.getElementById('lang-inputs').innerHTML = langs.map(lang => `
+    document.getElementById('lang-inputs').innerHTML = getActiveLangs().map(lang => `
       <div class="form-row">
         <div class="form-label">
           <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
           <span class="form-label-text">${lang.name}</span>
         </div>
-        <input type="text" id="input-${lang.code}" class="form-input" placeholder=""
-          oninput="this.classList.remove('input-translated')">
+        <input type="text" id="input-${lang.code}" class="form-input" oninput="this.classList.remove('input-translated')">
       </div>`).join('');
   }
 
-  // ── スペルチェック ──
   let pendingPhrase = null;
 
   async function addPhrase() {
@@ -835,392 +505,181 @@
     if (!ja) { showToast('日本語を入力してください'); return; }
 
     const tagsRaw = document.getElementById('input-tags').value.trim();
-    const tags = tagsRaw ? tagsRaw.split(/\s+/).filter(Boolean) : [];
-    const obj = { ja, tags };
-    // 全登録言語のinputから取得（表示中のみ）
-    getActiveLangs().forEach(lang => {
-      const el = document.getElementById('input-' + lang.code);
-      obj[lang.code] = el ? el.value.trim() : '';
-    });
-    // 非表示言語は_pendingTranslationsから取得
-    if (window._pendingTranslations) {
-      hiddenLangCodes.forEach(code => {
-        if (window._pendingTranslations[code] && !obj[code]) {
-          obj[code] = window._pendingTranslations[code];
-        }
-      });
-    }
+    const obj = { ja, tags: tagsRaw ? tagsRaw.split(/\s+/).filter(Boolean) : [] };
+    getActiveLangs().forEach(lang => { const el = document.getElementById('input-' + lang.code); obj[lang.code] = el ? el.value.trim() : ''; });
+    if (window._pendingTranslations) hiddenLangCodes.forEach(code => { if (window._pendingTranslations[code] && !obj[code]) obj[code] = window._pendingTranslations[code]; });
 
     pendingPhrase = obj;
+    const toCheck = getActiveLangs().filter(lang => obj[lang.code]).map(lang => ({ code: lang.code, name: lang.name, text: obj[lang.code] }));
+    if (!toCheck.length) { commitPhrase(pendingPhrase); return; }
 
-    // 外国語の入力があるものだけチェック対象
-    const toCheck = getActiveLangs()
-      .filter(lang => obj[lang.code])
-      .map(lang => ({ code: lang.code, name: lang.name, text: obj[lang.code] }));
-
-    if (toCheck.length === 0) {
-      commitPhrase(pendingPhrase);
-      return;
-    }
-
-    const addBtn = document.querySelector('.btn-primary');
-    addBtn.textContent = '確認中...';
-    addBtn.disabled = true;
+    const addBtn = document.querySelector('#panel-add .btn-primary');
+    addBtn.textContent = '確認中...'; addBtn.disabled = true;
 
     const langList = toCheck.map(l => `- ${l.name} (${l.code}): "${l.text}"`).join('\n');
-    const prompt = `以下の外国語フレーズのスペルと文法をチェックしてください。
-
-${langList}
-
-ルール:
-- スペルミス・明らかな文法ミスがあれば修正案を出す
-- 正しければ元のテキストをそのまま返す
-- 英語はBritish Englishで確認
-- 必ず以下のJSON形式のみで返答（説明不要）
-- hasErrorがtrueのものだけ修正案を含める
-
-{"results":[{"code":"en","original":"Goood morning","corrected":"Good morning","hasError":true},{"code":"de","original":"Guten Morgen","corrected":"Guten Morgen","hasError":false}]}`;
+    const prompt = `以下の外国語フレーズのスペルと文法をチェックしてください。\n\n${langList}\n\nルール:\n- スペルミス・明らかな文法ミスがあれば修正案を出す\n- 正しければ元のテキストをそのまま返す\n- 英語はBritish Englishで確認\n- 必ず以下のJSON形式のみで返答（説明不要）\n\n{"results":[{"code":"en","original":"Goood morning","corrected":"Good morning","hasError":true}]}`;
 
     try {
       const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 800,
-          messages: [{ role: 'user', content: prompt }]
-        })
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 800, messages: [{ role: 'user', content: prompt }] })
       });
       const data = await response.json();
-      const raw = data.content.map(c => c.text || '').join('');
-      const clean = raw.replace(/```json|```/g, '').trim();
-      const result = JSON.parse(clean);
-
+      const result = JSON.parse(data.content.map(c => c.text||'').join('').replace(/```json|```/g,'').trim());
       const errors = result.results.filter(r => r.hasError);
+      if (!errors.length) { commitPhrase(pendingPhrase); showToast('スペル問題なし ✓'); }
+      else showSpellModal(errors);
+    } catch(e) { console.error(e); commitPhrase(pendingPhrase); }
 
-      if (errors.length === 0) {
-        commitPhrase(pendingPhrase);
-        showToast('スペル問題なし ✓');
-      } else {
-        showSpellModal(errors);
-      }
-    } catch(e) {
-      console.error(e);
-      commitPhrase(pendingPhrase); // エラー時はそのまま追加
-    }
-
-    addBtn.textContent = '追加する';
-    addBtn.disabled = false;
+    addBtn.textContent = '追加する'; addBtn.disabled = false;
   }
 
   function showSpellModal(errors) {
-    document.getElementById('spell-modal-sub').textContent = `${errors.length}件のスペルミスが見つかりました。修正内容を確認してください。`;
+    document.getElementById('spell-modal-sub').textContent = `${errors.length}件のスペルミスが見つかりました。`;
     document.getElementById('spell-items').innerHTML = errors.map(e => {
       const lang = getLang(e.code);
-      return `
-        <div class="spell-item">
-          <div class="spell-item-header">
-            <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
-            <span class="spell-original">${e.original}</span>
-            <span class="spell-arrow">→</span>
-            <span class="spell-suggested">${e.corrected}</span>
-          </div>
-          <input class="spell-input" data-code="${e.code}" value="${e.corrected}">
-        </div>`;
+      return `<div class="spell-item"><div class="spell-item-header"><span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span><span class="spell-original">${e.original}</span><span class="spell-arrow">→</span><span class="spell-suggested">${e.corrected}</span></div><input class="spell-input" data-code="${e.code}" value="${e.corrected}"></div>`;
     }).join('');
     document.getElementById('spell-modal').classList.add('show');
   }
 
   function applyCorrections() {
-    document.querySelectorAll('.spell-input').forEach(input => {
-      const code = input.dataset.code;
-      if (pendingPhrase && code) pendingPhrase[code] = input.value.trim();
-    });
-    closeSpellModal(false);
-    commitPhrase(pendingPhrase);
+    document.querySelectorAll('.spell-input').forEach(input => { if (pendingPhrase && input.dataset.code) pendingPhrase[input.dataset.code] = input.value.trim(); });
+    closeSpellModal(false); commitPhrase(pendingPhrase);
   }
 
-  function closeSpellModal(addAsIs) {
-    document.getElementById('spell-modal').classList.remove('show');
-    if (addAsIs && pendingPhrase) commitPhrase(pendingPhrase);
-  }
+  function closeSpellModal(addAsIs) { document.getElementById('spell-modal').classList.remove('show'); if (addAsIs && pendingPhrase) commitPhrase(pendingPhrase); }
 
   function commitPhrase(obj) {
-    phrases.push(obj);
-    pendingPhrase = null;
-    window._pendingTranslations = {};
-    saveData();
-    renderPhrases();
+    phrases.push(obj); pendingPhrase = null; window._pendingTranslations = {};
+    saveData(); renderPhrases();
     document.getElementById('input-ja').value = '';
-    const tagsEl = document.getElementById('input-tags');
-    if (tagsEl) tagsEl.value = '';
-    getActiveLangs().forEach(lang => {
-      const el = document.getElementById('input-' + lang.code);
-      if (el) { el.value = ''; el.classList.remove('input-translated'); }
-    });
-    showToast('追加しました ✓');
-    switchTab('list');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const tagsEl = document.getElementById('input-tags'); if (tagsEl) tagsEl.value = '';
+    getActiveLangs().forEach(lang => { const el = document.getElementById('input-' + lang.code); if (el) { el.value = ''; el.classList.remove('input-translated'); } });
+    showToast('追加しました ✓'); switchTab('list'); window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // ── 編集モーダル ──
   let editingIdx = -1;
 
   function openEditModal(idx) {
     editingIdx = idx;
     const phrase = phrases[idx];
-    document.getElementById('edit-modal-category').textContent = (phrase.tags || []).length ? (phrase.tags || []).join('  ') : 'タグなし';
-
-    const fields = document.getElementById('edit-fields');
-    fields.innerHTML = `
-      <div class="form-row">
-        <div class="form-label">
-          <span class="lang-label" style="background:var(--tag-ja);color:var(--text-muted)">日</span>
-          <span class="form-label-text">日本語</span>
-        </div>
-        <input type="text" id="edit-ja" class="form-input" value="${escapeAttr(phrase.ja)}">
-      </div>` +
-      ALL_LANGS.map(lang => `
-      <div class="form-row">
-        <div class="form-label">
-          <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
-          <span class="form-label-text">${lang.name}</span>
-        </div>
-        <input type="text" id="edit-${lang.code}" class="form-input" value="${escapeAttr(phrase[lang.code] || '')}"
-          oninput="this.classList.remove('input-translated')">
-      </div>`).join('') + `
-      <div class="form-row" style="margin-top:4px">
-        <div class="form-label"><span class="form-label-text">タグ（スペース区切り）</span></div>
-        <input type="text" id="edit-tags" class="form-input" value="${escapeAttr((phrase.tags || []).join(' '))}" placeholder="あいさつ 毎日 重要">
-      </div>`;
-
+    document.getElementById('edit-modal-category').textContent = (phrase.tags||[]).join('  ') || 'タグなし';
+    document.getElementById('edit-fields').innerHTML = `
+      <div class="form-row"><div class="form-label"><span class="lang-label" style="background:var(--tag-ja);color:var(--text-muted)">日</span><span class="form-label-text">日本語</span></div><input type="text" id="edit-ja" class="form-input" value="${escapeAttr(phrase.ja)}"></div>` +
+      ALL_LANGS.map(lang => `<div class="form-row"><div class="form-label"><span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span><span class="form-label-text">${lang.name}</span></div><input type="text" id="edit-${lang.code}" class="form-input" value="${escapeAttr(phrase[lang.code]||'')}" oninput="this.classList.remove('input-translated')"></div>`).join('') +
+      `<div class="form-row" style="margin-top:4px"><div class="form-label"><span class="form-label-text">タグ（スペース区切り）</span></div><input type="text" id="edit-tags" class="form-input" value="${escapeAttr((phrase.tags||[]).join(' '))}" placeholder="あいさつ 毎日 重要"></div>`;
     document.getElementById('edit-modal').classList.add('show');
   }
 
-  function closeEditModal() {
-    document.getElementById('edit-modal').classList.remove('show');
-    editingIdx = -1;
-  }
+  function closeEditModal() { document.getElementById('edit-modal').classList.remove('show'); editingIdx = -1; }
 
   function deletePhrase() {
     if (editingIdx < 0) return;
     if (!confirm('このフレーズを削除しますか？')) return;
-    phrases.splice(editingIdx, 1);
-    saveData();
-    renderPhrases();
-    closeEditModal();
-    showToast('削除しました');
+    phrases.splice(editingIdx, 1); saveData(); renderPhrases(); closeEditModal(); showToast('削除しました');
   }
 
   function saveEdit() {
     if (editingIdx < 0) return;
     const phrase = phrases[editingIdx];
     phrase.ja = document.getElementById('edit-ja').value.trim() || phrase.ja;
-    ALL_LANGS.forEach(lang => {
-      const el = document.getElementById('edit-' + lang.code);
-      if (el) phrase[lang.code] = el.value.trim();
-    });
+    ALL_LANGS.forEach(lang => { const el = document.getElementById('edit-' + lang.code); if (el) phrase[lang.code] = el.value.trim(); });
     const tagsRaw = document.getElementById('edit-tags').value.trim();
     phrase.tags = tagsRaw ? tagsRaw.split(/\s+/).filter(Boolean) : [];
-    saveData();
-    renderPhrases();
-    closeEditModal();
-    showToast('保存しました ✓');
+    saveData(); renderPhrases(); closeEditModal(); showToast('保存しました ✓');
   }
 
   async function editAutoTranslate() {
+    if (!deeplApiKey) { showToast('DeepL APIキーを設定してください'); openApiKeyModal(); return; }
+
     const jaEl = document.getElementById('edit-ja');
     const jaText = jaEl ? jaEl.value.trim() : '';
+    let sourceText = '', sourceLangCode = null;
 
-    let sourceText = '';
-    let sourceLangCode = null;
-
-    if (jaText) {
-      sourceText = jaText;
-      sourceLangCode = 'JA';
-    } else {
-      for (const lang of ALL_LANGS) {
-        const el = document.getElementById('edit-' + lang.code);
-        if (el && el.value.trim()) {
-          sourceText = el.value.trim();
-          sourceLangCode = DEEPL_LANG_MAP[lang.code] || lang.code.toUpperCase();
-          break;
-        }
-      }
-    }
-
+    if (jaText) { sourceText = jaText; sourceLangCode = 'JA'; }
+    else { for (const lang of ALL_LANGS) { const el = document.getElementById('edit-' + lang.code); if (el && el.value.trim()) { sourceText = el.value.trim(); sourceLangCode = DEEPL_LANG_MAP[lang.code]; break; } } }
     if (!sourceText) { showToast('まず日本語かいずれかの言語を入力してください'); return; }
 
     const btn = document.getElementById('edit-translate-btn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> 翻訳中...';
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 翻訳中...';
 
     const targets = [];
     if (!jaText) targets.push('ja');
-    ALL_LANGS.forEach(lang => {
-      const el = document.getElementById('edit-' + lang.code);
-      if (!el || !el.value.trim()) targets.push(lang.code);
-    });
-
-    if (targets.length === 0) {
-      showToast('すべての言語が入力済みです');
-      btn.disabled = false;
-      btn.innerHTML = '✨ 空欄を自動翻訳する';
-      return;
-    }
+    ALL_LANGS.forEach(lang => { const el = document.getElementById('edit-' + lang.code); if (!el || !el.value.trim()) targets.push(lang.code); });
 
     try {
-      const results = await Promise.all(
-        targets.map(async (code) => {
-          const deepLTarget = DEEPL_LANG_MAP[code];
-          if (!deepLTarget) return null;
-          const res = await fetch('/api/translate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              text: sourceText,
-              target_lang: deepLTarget,
-              source_lang: sourceLangCode ? sourceLangCode.split('-')[0] : undefined,
-            }),
-          });
-          if (!res.ok) throw new Error(`DeepL error ${res.status}`);
-          const data = await res.json();
-          return { code, text: data.translations?.[0]?.text || '' };
-        })
-      );
-
-      results.forEach(r => {
-        if (!r || !r.text) return;
-        const el = document.getElementById('edit-' + r.code);
-        if (el) { el.value = r.text; el.classList.add('input-translated'); }
-        if (r.code === 'ja' && jaEl) { jaEl.value = r.text; jaEl.classList.add('input-translated'); }
-      });
+      const results = await Promise.all(targets.map(async code => {
+        const deepLTarget = DEEPL_LANG_MAP[code]; if (!deepLTarget) return null;
+        const sl = sourceLangCode ? sourceLangCode.split('-')[0] : undefined;
+        const text = await translateOne(sourceText, deepLTarget, sl);
+        return { code, text };
+      }));
+      results.forEach(r => { if (!r || !r.text) return; const el = document.getElementById('edit-' + r.code); if (el) { el.value = r.text; el.classList.add('input-translated'); } });
       showToast('翻訳しました ✓');
-    } catch(e) {
-      console.error(e);
-      showToast('翻訳に失敗しました');
-    }
+    } catch(e) { showToast('翻訳に失敗しました'); console.error(e); }
 
-    btn.disabled = false;
-    btn.innerHTML = '✨ 空欄を自動翻訳する';
+    btn.disabled = false; btn.innerHTML = '✨ 空欄を自動翻訳する';
   }
 
-  // ── 設定画面 ──
   function renderSettings() {
     updateExportTime();
     const statusEl = document.getElementById('apikey-status');
     if (statusEl) {
-      statusEl.textContent = deeplApiKey
-        ? '設定済み · ' + deeplApiKey.slice(0, 8) + '••••••••'
-        : '未設定 — 翻訳機能が使えません';
+      statusEl.textContent = deeplApiKey ? '設定済み · ' + deeplApiKey.slice(0,8) + '••••••••' : '未設定 — 翻訳機能が使えません';
       statusEl.style.color = deeplApiKey ? 'var(--accent)' : 'var(--text-muted)';
     }
 
-    const allEl = document.getElementById('all-langs-list');
-    let html = `
-      <div class="lang-setting-row fixed">
-        <span style="font-size:16px;color:var(--border-dark);padding:2px 4px">☰</span>
-        <span class="lang-label" style="background:var(--tag-ja);color:var(--text-muted)">日</span>
-        <div class="lang-setting-info">
-          <div class="lang-setting-name">日本語（固定）</div>
-          <div class="lang-setting-code">ja-JP · 常に表示</div>
-        </div>
-      </div>`;
     const visibleLangs = getActiveLangs();
-    const allForeignLangs = ALL_LANGS.filter(l => l.code !== 'ja');
-    allForeignLangs.forEach((lang, i) => {
+    let html = `<div class="lang-setting-row fixed"><span style="font-size:16px;color:var(--border-dark);padding:2px 4px">☰</span><span class="lang-label" style="background:var(--tag-ja);color:var(--text-muted)">日</span><div class="lang-setting-info"><div class="lang-setting-name">日本語（固定）</div><div class="lang-setting-code">ja-JP · 常に表示</div></div></div>`;
+
+    ALL_LANGS.filter(l => l.code !== 'ja').forEach(lang => {
       const isHidden = hiddenLangCodes.includes(lang.code);
       if (!isHidden) {
         html += `<div class="lang-setting-row" draggable="true" data-code="${lang.code}" data-index="${visibleLangs.findIndex(l=>l.code===lang.code)}"
-          ondragstart="onDragStart(event,'${lang.code}')"
-          ondragover="onDragOver(event)"
-          ondragleave="onDragLeave(event)"
-          ondrop="onDrop(event,'${lang.code}')"
-          ondragend="onDragEnd(event)">
-          <span class="drag-handle" title="ドラッグして並び替え">☰</span>
+          ondragstart="onDragStart(event,'${lang.code}')" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'${lang.code}')" ondragend="onDragEnd(event)">
+          <span class="drag-handle">☰</span>
           <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
-          <div class="lang-setting-info">
-            <div class="lang-setting-name">${lang.name}${lang.britishOnly ? ' (British)' : ''}</div>
-            <div class="lang-setting-code">${lang.bcp47} · 表示中</div>
-          </div>
-          <button class="remove-btn" onclick="hideLang('${lang.code}')">非表示</button>
-        </div>`;
+          <div class="lang-setting-info"><div class="lang-setting-name">${lang.name}${lang.britishOnly?' (British)':''}</div><div class="lang-setting-code">${lang.bcp47} · 表示中</div></div>
+          <button class="remove-btn" onclick="hideLang('${lang.code}')">非表示</button></div>`;
       } else {
-        html += `<div class="lang-setting-row" style="opacity:0.55">
-          <span style="width:24px;flex-shrink:0"></span>
+        html += `<div class="lang-setting-row" style="opacity:0.55"><span style="width:24px;flex-shrink:0"></span>
           <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
-          <div class="lang-setting-info">
-            <div class="lang-setting-name">${lang.name}${lang.britishOnly ? ' (British)' : ''}</div>
-            <div class="lang-setting-code">${lang.bcp47} · 非表示</div>
-          </div>
-          <button class="remove-btn" style="color:var(--accent);border-color:var(--accent)" onclick="showLang('${lang.code}')">表示する</button>
-        </div>`;
+          <div class="lang-setting-info"><div class="lang-setting-name">${lang.name}${lang.britishOnly?' (British)':''}</div><div class="lang-setting-code">${lang.bcp47} · 非表示</div></div>
+          <button class="remove-btn" style="color:var(--accent);border-color:var(--accent)" onclick="showLang('${lang.code}')">表示する</button></div>`;
       }
     });
-    allEl.innerHTML = html;
+    document.getElementById('all-langs-list').innerHTML = html;
     setupTouchDrag();
   }
 
-  // ── ドラッグ＆ドロップ（PC）── コードベースで管理（インデックスバグ回避）
   let dragSrcCode = null;
-
-  function onDragStart(e, code) {
-    dragSrcCode = code;
-    e.currentTarget.classList.add('dragging');
-    e.dataTransfer.effectAllowed = 'move';
-  }
-
-  function onDragOver(e) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    e.currentTarget.classList.add('drag-over');
-  }
-
-  function onDragLeave(e) {
-    e.currentTarget.classList.remove('drag-over');
-  }
-
+  function onDragStart(e, code) { dragSrcCode = code; e.currentTarget.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; }
+  function onDragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; e.currentTarget.classList.add('drag-over'); }
+  function onDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
   function onDrop(e, toCode) {
-    e.preventDefault();
-    e.currentTarget.classList.remove('drag-over');
+    e.preventDefault(); e.currentTarget.classList.remove('drag-over');
     if (!dragSrcCode || dragSrcCode === toCode) return;
-    const fromIdx = activeLangCodes.indexOf(dragSrcCode);
-    const toIdx = activeLangCodes.indexOf(toCode);
-    if (fromIdx === -1 || toIdx === -1) return;
-    activeLangCodes.splice(fromIdx, 1);
-    activeLangCodes.splice(toIdx, 0, dragSrcCode);
-    saveData();
-    updateHeader();
-    renderPhrases();
-    renderLangInputs();
-    renderSettings();
+    const fi = activeLangCodes.indexOf(dragSrcCode), ti = activeLangCodes.indexOf(toCode);
+    if (fi === -1 || ti === -1) return;
+    activeLangCodes.splice(fi, 1); activeLangCodes.splice(ti, 0, dragSrcCode);
+    saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings();
   }
+  function onDragEnd(e) { e.currentTarget.classList.remove('dragging'); dragSrcCode = null; document.querySelectorAll('.lang-setting-row').forEach(r => r.classList.remove('drag-over')); }
 
-  function onDragEnd(e) {
-    e.currentTarget.classList.remove('dragging');
-    dragSrcCode = null;
-    document.querySelectorAll('.lang-setting-row').forEach(r => r.classList.remove('drag-over'));
-  }
-
-  // ── タッチドラッグ（スマホ） ──
   function setupTouchDrag() {
-    const rows = document.querySelectorAll('.lang-setting-row[draggable="true"]');
-    rows.forEach(row => {
+    document.querySelectorAll('.lang-setting-row[draggable="true"]').forEach(row => {
       const handle = row.querySelector('.drag-handle');
       if (!handle) return;
-
-      let startY, startIndex, clone, placeholder;
+      let startY, clone, placeholder;
 
       handle.addEventListener('touchstart', e => {
         e.preventDefault();
         startY = e.touches[0].clientY;
-        startIndex = parseInt(row.dataset.index);
-
         const rect = row.getBoundingClientRect();
         clone = row.cloneNode(true);
         clone.style.cssText = `position:fixed;left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;z-index:999;opacity:0.9;box-shadow:0 8px 24px rgba(0,0,0,0.15);pointer-events:none;`;
         document.body.appendChild(clone);
-
         placeholder = document.createElement('div');
         placeholder.style.cssText = `height:${rect.height}px;margin-bottom:8px;border:1px dashed var(--accent);border-radius:6px;background:#fdf6ee;`;
         row.parentNode.insertBefore(placeholder, row);
@@ -1228,278 +687,132 @@ ${langList}
       }, { passive: false });
 
       handle.addEventListener('touchmove', e => {
-        e.preventDefault();
-        if (!clone) return;
+        e.preventDefault(); if (!clone) return;
         const dy = e.touches[0].clientY - startY;
-        const rect = row.getBoundingClientRect();
         clone.style.top = (parseFloat(clone.style.top) + dy) + 'px';
         startY = e.touches[0].clientY;
-
-        // Find target row
-        const allRows = [...document.querySelectorAll('.lang-setting-row[draggable="true"]')].filter(r => r !== row);
-        allRows.forEach(r => {
+        [...document.querySelectorAll('.lang-setting-row[draggable="true"]')].filter(r => r !== row).forEach(r => {
           const rb = r.getBoundingClientRect();
-          const mid = rb.top + rb.height / 2;
-          if (e.touches[0].clientY < mid) {
-            r.parentNode.insertBefore(placeholder, r);
-          } else {
-            r.parentNode.insertBefore(placeholder, r.nextSibling);
-          }
+          if (e.touches[0].clientY < rb.top + rb.height/2) r.parentNode.insertBefore(placeholder, r);
+          else r.parentNode.insertBefore(placeholder, r.nextSibling);
         });
       }, { passive: false });
 
       handle.addEventListener('touchend', e => {
         if (!clone) return;
-        clone.remove(); clone = null;
-        row.style.display = '';
-
+        clone.remove(); clone = null; row.style.display = '';
         const srcCode = row.dataset.code;
-
-        // placeholderの位置を基にdraggable rowsの中での挿入位置を求める
-        const allDraggableRows = [...placeholder.parentNode.querySelectorAll('.lang-setting-row[draggable="true"]')];
+        const allDraggable = [...placeholder.parentNode.querySelectorAll('.lang-setting-row[draggable="true"]')];
         let toIdx = 0;
-        for (let i = 0; i < allDraggableRows.length; i++) {
-          const r = allDraggableRows[i];
+        for (let i = 0; i < allDraggable.length; i++) {
+          const r = allDraggable[i];
           if (r === placeholder || r === row) continue;
-          const rb = r.getBoundingClientRect();
-          if (placeholder.getBoundingClientRect().top > rb.top) toIdx = i + 1;
+          if (placeholder.getBoundingClientRect().top > r.getBoundingClientRect().top) toIdx = i + 1;
         }
-
         placeholder.remove();
-
-        // activeLangCodesをコードベースで並び替え
         const fromIdx = activeLangCodes.indexOf(srcCode);
-        if (fromIdx !== -1) {
-          activeLangCodes.splice(fromIdx, 1);
-          toIdx = Math.max(0, Math.min(toIdx, activeLangCodes.length));
-          activeLangCodes.splice(toIdx, 0, srcCode);
-        }
-
-        saveData();
-        updateHeader();
-        renderPhrases();
-        renderLangInputs();
-        renderSettings();
+        if (fromIdx !== -1) { activeLangCodes.splice(fromIdx, 1); activeLangCodes.splice(Math.max(0, Math.min(toIdx, activeLangCodes.length)), 0, srcCode); }
+        saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings();
       });
     });
   }
 
-  function hideLang(code) {
-    if (!hiddenLangCodes.includes(code)) hiddenLangCodes.push(code);
-    saveData();
-    updateHeader();
-    renderPhrases();
-    renderLangInputs();
-    renderSettings();
-    showToast(getLang(code).name + ' を非表示にしました');
-  }
+  function hideLang(code) { if (!hiddenLangCodes.includes(code)) hiddenLangCodes.push(code); saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings(); showToast(getLang(code).name + ' を非表示にしました'); }
+  function showLang(code) { hiddenLangCodes = hiddenLangCodes.filter(c => c !== code); saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings(); showToast(getLang(code).name + ' を表示しました'); }
 
-  function showLang(code) {
-    hiddenLangCodes = hiddenLangCodes.filter(c => c !== code);
-    saveData();
-    updateHeader();
-    renderPhrases();
-    renderLangInputs();
-    renderSettings();
-    showToast(getLang(code).name + ' を表示しました');
-  }
-
-  // ── 音声 ──
   function speak(text, langCode, btn) {
     if (!window.speechSynthesis) { showToast('このブラウザは音声未対応です'); return; }
     window.speechSynthesis.cancel();
     if (currentBtn) currentBtn.classList.remove('playing');
-    currentBtn = btn;
-    if (btn) btn.classList.add('playing');
-
+    currentBtn = btn; if (btn) btn.classList.add('playing');
     const lang = getLang(langCode);
     const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = lang.bcp47;
-    utter.rate = 0.88;
-
+    utter.lang = lang.bcp47; utter.rate = 0.88;
     const voices = window.speechSynthesis.getVoices();
-    let voice = null;
-    if (lang.britishOnly) {
-      voice = voices.find(v => v.lang === 'en-GB') ||
-              voices.find(v => v.name.toLowerCase().includes('british')) ||
-              voices.find(v => v.lang.startsWith('en'));
-    } else {
-      voice = voices.find(v => v.lang === lang.bcp47) ||
-              voices.find(v => v.lang.startsWith(lang.bcp47.split('-')[0]));
-    }
+    const voice = lang.britishOnly
+      ? (voices.find(v => v.lang === 'en-GB') || voices.find(v => v.name.toLowerCase().includes('british')) || voices.find(v => v.lang.startsWith('en')))
+      : (voices.find(v => v.lang === lang.bcp47) || voices.find(v => v.lang.startsWith(lang.bcp47.split('-')[0])));
     if (voice) utter.voice = voice;
-
-    utter.onend = utter.onerror = () => {
-      if (btn) btn.classList.remove('playing');
-      currentBtn = null;
-    };
+    utter.onend = utter.onerror = () => { if (btn) btn.classList.remove('playing'); currentBtn = null; };
     window.speechSynthesis.speak(utter);
   }
-
   function speakBtn(btn, text, lang) { speak(text, lang, btn); }
 
-  // ── Toast ──
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2200);
-  }
+  function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); }
 
-  // ── データ保存・読み込み（localStorage） ──
   const STORAGE_KEY = 'language-note-data-v1';
-
-  function saveData() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        phrases,
-        hiddenLangCodes,
-      }));
-    } catch(e) {
-      console.error('保存失敗:', e);
-    }
-  }
-
+  function saveData() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ phrases, hiddenLangCodes })); } catch(e) {} }
   function loadData() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return false;
+      const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return false;
       const data = JSON.parse(raw);
       if (data.phrases) phrases = data.phrases;
       if (data.hiddenLangCodes) hiddenLangCodes = data.hiddenLangCodes;
       return true;
-    } catch(e) {
-      console.error('読み込み失敗:', e);
-      return false;
-    }
+    } catch(e) { return false; }
   }
 
-  // ── エクスポート／インポート ──
   async function exportData() {
     const date = new Date();
-    const dateStr = date.getFullYear()
-      + ('0'+(date.getMonth()+1)).slice(-2)
-      + ('0'+date.getDate()).slice(-2);
+    const dateStr = date.getFullYear() + ('0'+(date.getMonth()+1)).slice(-2) + ('0'+date.getDate()).slice(-2);
     const filename = `language-note-${dateStr}.json`;
     const dataStr = JSON.stringify({ phrases, hiddenLangCodes, activeLangCodes }, null, 2);
-
-    // File System Access API が使えるブラウザ（Chrome等）は保存先を選択できる
     if (window.showSaveFilePicker) {
       try {
-        const fileHandle = await window.showSaveFilePicker({
-          suggestedName: filename,
-          types: [{ description: 'JSONファイル', accept: { 'application/json': ['.json'] } }],
-        });
-        const writable = await fileHandle.createWritable();
-        await writable.write(dataStr);
-        await writable.close();
-      } catch(e) {
-        if (e.name === 'AbortError') return; // キャンセルした場合は何もしない
-        // 失敗したら通常ダウンロードにフォールバック
-        fallbackDownload(filename, dataStr);
-      }
-    } else {
-      // Safari等はそのままダウンロード
-      fallbackDownload(filename, dataStr);
-    }
-
-    // 最終書き出し日時を保存
+        const fh = await window.showSaveFilePicker({ suggestedName: filename, types: [{ description: 'JSONファイル', accept: { 'application/json': ['.json'] } }] });
+        const w = await fh.createWritable(); await w.write(dataStr); await w.close();
+      } catch(e) { if (e.name === 'AbortError') return; fallbackDownload(filename, dataStr); }
+    } else { fallbackDownload(filename, dataStr); }
     try { localStorage.setItem('language-note-last-export', date.toISOString()); } catch(e) {}
-    updateExportTime();
-    showToast(`${filename} を書き出しました ✓`);
+    updateExportTime(); showToast(`${filename} を書き出しました ✓`);
   }
 
   function fallbackDownload(filename, dataStr) {
     const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
+    const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
   }
 
   function updateExportTime() {
-    const el = document.getElementById('last-export-time');
-    if (!el) return;
+    const el = document.getElementById('last-export-time'); if (!el) return;
     try {
-      const raw = localStorage.getItem('language-note-last-export');
-      if (!raw) { el.textContent = '未書き出し'; return; }
+      const raw = localStorage.getItem('language-note-last-export'); if (!raw) { el.textContent = '未書き出し'; return; }
       const d = new Date(raw);
-      const now = new Date();
-      const diffDays = Math.floor((now - d) / (1000 * 60 * 60 * 24));
-      const timeStr = d.getFullYear() + '/'
-        + ('0'+(d.getMonth()+1)).slice(-2) + '/'
-        + ('0'+d.getDate()).slice(-2);
-      if (diffDays === 0) el.textContent = '今日 ' + timeStr;
-      else if (diffDays === 1) el.textContent = '昨日 ' + timeStr;
-      else el.textContent = `${diffDays}日前 ${timeStr}`;
-
-      // 3日以上経ってたら色を変えて注意を促す
+      const diffDays = Math.floor((new Date() - d) / (1000*60*60*24));
+      const timeStr = d.getFullYear() + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + ('0'+d.getDate()).slice(-2);
+      el.textContent = diffDays === 0 ? '今日 ' + timeStr : diffDays === 1 ? '昨日 ' + timeStr : `${diffDays}日前 ${timeStr}`;
       el.style.color = diffDays >= 3 ? 'var(--accent)' : 'var(--text-light)';
     } catch(e) {}
   }
 
   function importData(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+    const file = event.target.files[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = e => {
       try {
         const data = JSON.parse(e.target.result);
-        if (!data.phrases || !Array.isArray(data.phrases)) {
-          showToast('ファイルの形式が正しくありません');
-          return;
-        }
-        // 既存フレーズと重複チェック（日本語が同じものはスキップ）
+        if (!data.phrases || !Array.isArray(data.phrases)) { showToast('ファイルの形式が正しくありません'); return; }
         const existingJa = new Set(phrases.map(p => p.ja));
         const newPhrases = data.phrases.filter(p => !existingJa.has(p.ja));
         phrases = [...phrases, ...newPhrases];
-
-        // 言語設定もマージ（新しい言語コードがあれば追加）
-        if (data.activeLangCodes) {
-          data.activeLangCodes.forEach(code => {
-            if (!activeLangCodes.includes(code)) activeLangCodes.push(code);
-          });
-        }
-        if (data.hiddenLangCodes) {
-          data.hiddenLangCodes.forEach(code => {
-            if (!hiddenLangCodes.includes(code)) hiddenLangCodes.push(code);
-          });
-        }
-
-        saveData();
-        updateHeader();
-        renderPhrases();
-        renderLangInputs();
-        renderSettings();
+        if (data.hiddenLangCodes) data.hiddenLangCodes.forEach(code => { if (!hiddenLangCodes.includes(code)) hiddenLangCodes.push(code); });
+        saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings();
         showToast(`${newPhrases.length}件のフレーズを読み込みました ✓`);
-      } catch(err) {
-        showToast('読み込みに失敗しました');
-        console.error(err);
-      }
-      // inputをリセット（同じファイルを再選択できるように）
+      } catch(err) { showToast('読み込みに失敗しました'); }
       event.target.value = '';
     };
     reader.readAsText(file);
   }
 
-  // ── 初期化 ──
-  if (window.speechSynthesis) {
-    window.speechSynthesis.getVoices();
-    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-  }
+  if (window.speechSynthesis) { window.speechSynthesis.getVoices(); window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices(); }
 
   const hasSavedData = loadData();
   loadDeeplKey();
   updateHeader();
   renderPhrases();
   renderLangInputs();
-
-  if (hasSavedData) {
-    showToast('データを読み込みました ✓');
-  }
+  updateApikeyBanner();
+  if (hasSavedData) showToast('データを読み込みました ✓');
 </script>
-
-
-</body></html>
+</body>
+</html>
