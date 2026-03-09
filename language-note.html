@@ -39,10 +39,7 @@
   }
   .header-top { display: flex; align-items: center; justify-content: space-between; }
   .header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.04em; }
-  .settings-btn {
-    background: none; border: 1px solid var(--border); border-radius: 6px;
-    padding: 6px 10px; font-size: 16px; cursor: pointer; color: var(--text-muted);
-  }
+
   .header-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 5px; }
   .lang-badges { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
   .lang-badge { font-family: 'DM Mono', monospace; font-size: 9px; padding: 3px 8px; border-radius: 2px; font-weight: 500; }
@@ -151,7 +148,6 @@
 <div class="header">
   <div class="header-top">
     <h1>語学ノート</h1>
-    <button class="settings-btn" onclick="switchTab('settings')">⚙️</button>
   </div>
   <div class="header-sub" id="header-sub"></div>
   <div class="lang-badges" id="lang-badges"></div>
