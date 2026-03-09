@@ -364,17 +364,38 @@
       card.className = 'phrase-card';
 
       let pressTimer = null;
+      let longPressed = false;
       let touchHandled = false;
-      const startPress = () => { pressTimer = setTimeout(() => { pressTimer = null; openEditModal(globalIdx); }, 500); };
-      const cancelPress = () => { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } };
+
+      const startPress = () => {
+        longPressed = false;
+        pressTimer = setTimeout(() => {
+          longPressed = true;
+          pressTimer = null;
+          openEditModal(globalIdx);
+        }, 500);
+      };
+      const cancelPress = () => {
+        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+      };
       const endPressTouch = () => {
         touchHandled = true;
-        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; card.classList.toggle('expanded'); }
+        if (!longPressed && pressTimer) {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+          card.classList.toggle('expanded');
+        }
+        longPressed = false;
         setTimeout(() => { touchHandled = false; }, 300);
       };
       const endPressMouse = () => {
         if (touchHandled) return;
-        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; card.classList.toggle('expanded'); }
+        if (!longPressed && pressTimer) {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+          card.classList.toggle('expanded');
+        }
+        longPressed = false;
       };
 
       card.addEventListener('mousedown', startPress);
