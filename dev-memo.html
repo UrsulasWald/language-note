@@ -422,12 +422,6 @@
       <div class="flow-node-desc">フォームに入力した値をJavaScriptが受け取る</div>
     </div>
     <div class="flow-arrow">↓</div>
-    <div class="flow-node">
-      <div class="flow-node-label">CHECK</div>
-      <div class="flow-node-title">スペルチェック</div>
-      <div class="flow-node-desc">Claude API（Haiku）に投げてスペルミスを確認。JSONで返ってくる。</div>
-    </div>
-    <div class="flow-arrow">↓</div>
     <div class="flow-node green">
       <div class="flow-node-label">SAVE</div>
       <div class="flow-node-title">localStorage に保存</div>
@@ -535,7 +529,7 @@
       <span class="tech-key">Claude API（Haiku）</span>
       <div class="tech-body">
         <div class="tech-title">スペルチェック</div>
-        <div class="tech-desc">フレーズ追加時に自動でスペルミスを検出。モデルはコスト・速度のバランスでHaikuを使用。JSON形式のみで返すよう指示している。</div>
+        <div class="tech-desc">現在は未実装。DeepLによる自動翻訳が主な入力手段のため、スペルミスが発生しにくいと判断して削除した。</div>
       </div>
     </div>
     <div class="tech-row">
