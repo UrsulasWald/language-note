@@ -876,7 +876,7 @@
     const date = new Date();
     const dateStr = date.getFullYear() + ('0'+(date.getMonth()+1)).slice(-2) + ('0'+date.getDate()).slice(-2);
     const filename = `language-note-${dateStr}.json`;
-    const dataStr = JSON.stringify({ phrases, hiddenLangCodes, activeLangCodes }, null, 2);
+    const dataStr = JSON.stringify({ phrases, hiddenLangCodes, activeLangCodes, archivedPhrases }, null, 2);
     if (window.showSaveFilePicker) {
       try {
         const fh = await window.showSaveFilePicker({ suggestedName: filename, types: [{ description: 'JSONファイル', accept: { 'application/json': ['.json'] } }] });
@@ -914,6 +914,7 @@
         if (!data.phrases || !Array.isArray(data.phrases)) { showToast('ファイルの形式が正しくありません'); return; }
         phrases = data.phrases;
         if (data.hiddenLangCodes) hiddenLangCodes = data.hiddenLangCodes;
+        if (data.archivedPhrases) archivedPhrases = data.archivedPhrases;
         saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings();
         showToast(`${phrases.length}件のフレーズで上書きしました ✓`);
       } catch(err) { showToast('読み込みに失敗しました'); }
