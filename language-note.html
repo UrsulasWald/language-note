@@ -42,7 +42,6 @@
   .header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-muted); }
 
 
-
   .tab-bar {
     display: flex; background: var(--surface); border-top: 1px solid var(--border);
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 15;
@@ -139,7 +138,6 @@
     <div class="header-lead">language note</div>
     <h1>LOST IN TRANSLATION</h1>
   </div>
-
 </div>
 
 <div class="tab-bar">
@@ -317,12 +315,14 @@
   ];
 
   let activeLangCodes = ALL_LANGS.map(l => l.code);
-  // 初期状態：EN・FR・DE以外は非表示
-  let hiddenLangCodes = ALL_LANGS.filter(l => !['ja','en','fr','de'].includes(l.code)).map(l => l.code);
+  // 初期状態：指定外の言語はデフォルト非表示
+  let hiddenLangCodes = ['en-us','pt-br','zh-tw','th','bg','el','et','hu','lt','lv','ro','sk','sl','tr','uk','he'];
   let phrases = [
-    { ja:"こんにちは", en:"Hello", fr:"Bonjour", de:"Hallo", tags:["あいさつ"] },
-    { ja:"ありがとう", en:"Thank you", fr:"Merci", de:"Danke", tags:["あいさつ"] },
-    { ja:"ごめんなさい", en:"I'm sorry", fr:"Pardon", de:"Entschuldigung", tags:["あいさつ"] },
+    { ja:"おはようございます", en:"Good morning", de:"Guten Morgen", fr:"Bonjour", nl:"Goedemorgen", sv:"God morgon", es:"Buenos días", it:"Buongiorno", pt:"Bom dia", ko:"좋은 아침이에요", zh:"早上好", ru:"Доброе утро", ar:"صباح الخير", tags:["あいさつ"] },
+    { ja:"ありがとうございます", en:"Thank you very much", de:"Vielen Dank", fr:"Merci beaucoup", nl:"Hartelijk dank", sv:"Tack så mycket", es:"Muchas gracias", it:"Grazie mille", pt:"Muito obrigado", ko:"감사합니다", zh:"非常感谢", ru:"Большое спасибо", ar:"شكراً جزيلاً", tags:["あいさつ"] },
+    { ja:"元気ですか？", en:"How are you?", de:"Wie geht es Ihnen?", fr:"Comment allez-vous ?", nl:"Hoe gaat het?", sv:"Hur mår du?", es:"¿Cómo está usted?", it:"Come sta?", pt:"Como vai?", ko:"잘 지내세요?", zh:"你好吗？", ru:"Как дела?", ar:"كيف حالك؟", tags:["あいさつ"] },
+    { ja:"これはいくらですか？", en:"How much is this?", de:"Wie viel kostet das?", fr:"C'est combien ?", nl:"Hoeveel kost dit?", sv:"Hur mycket kostar det?", es:"¿Cuánto cuesta esto?", it:"Quanto costa questo?", pt:"Quanto custa isto?", ko:"이건 얼마예요?", zh:"这个多少钱？", ru:"Сколько это стоит?", ar:"بكم هذا؟", tags:["日常会話"] },
+    { ja:"お水をください", en:"Water, please", de:"Wasser, bitte", fr:"De l'eau, s'il vous plaît", nl:"Water, alsjeblieft", sv:"Vatten, tack", es:"Agua, por favor", it:"Acqua, per favore", pt:"Água, por favor", ko:"물 주세요", zh:"请给我水", ru:"Воды, пожалуйста", ar:"ماء من فضلك", tags:["食べ物・飲み物"] },
   ];
 
   let currentBtn = null;
@@ -385,10 +385,12 @@
       let pressTimer = null;
       let longPressed = false;
       let touchHandled = false;
+      let moved = false;
 
       const startPress = (e) => {
         if (e.type === 'mousedown' && touchHandled) return;
         longPressed = false;
+        moved = false;
         pressTimer = setTimeout(() => {
           longPressed = true;
           pressTimer = null;
@@ -396,26 +398,27 @@
         }, 500);
       };
       const cancelPress = () => {
+        moved = true;
         if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
       };
       const endPressTouch = () => {
         touchHandled = true;
-        if (!longPressed && pressTimer) {
-          clearTimeout(pressTimer);
-          pressTimer = null;
+        if (!longPressed && !moved) {
+          if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
           card.classList.toggle('expanded');
         }
         longPressed = false;
+        moved = false;
         setTimeout(() => { touchHandled = false; }, 500);
       };
       const endPressMouse = () => {
         if (touchHandled) return;
-        if (!longPressed && pressTimer) {
-          clearTimeout(pressTimer);
-          pressTimer = null;
+        if (!longPressed && !moved) {
+          if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
           card.classList.toggle('expanded');
         }
         longPressed = false;
+        moved = false;
       };
 
       card.addEventListener('mousedown', startPress);
@@ -647,26 +650,39 @@
       let pressTimer = null;
       let longPressed = false;
       let touchHandled = false;
+      let moved = false;
 
       const startPress = (e) => {
         if (e.type === 'mousedown' && touchHandled) return;
         longPressed = false;
+        moved = false;
         pressTimer = setTimeout(() => {
           longPressed = true; pressTimer = null;
           openArchiveModal(globalIdx);
         }, 500);
       };
-      const cancelPress = () => { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } };
+      const cancelPress = () => {
+        moved = true;
+        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+      };
       const endPressTouch = () => {
         touchHandled = true;
-        if (!longPressed && pressTimer) { clearTimeout(pressTimer); pressTimer = null; card.classList.toggle('expanded'); }
+        if (!longPressed && !moved) {
+          if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+          card.classList.toggle('expanded');
+        }
         longPressed = false;
+        moved = false;
         setTimeout(() => { touchHandled = false; }, 500);
       };
       const endPressMouse = () => {
         if (touchHandled) return;
-        if (!longPressed && pressTimer) { clearTimeout(pressTimer); pressTimer = null; card.classList.toggle('expanded'); }
+        if (!longPressed && !moved) {
+          if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+          card.classList.toggle('expanded');
+        }
         longPressed = false;
+        moved = false;
       };
 
       card.addEventListener('mousedown', startPress);
