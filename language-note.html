@@ -41,9 +41,7 @@
   .header-lead { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 3px; }
   .header h1 { font-size: 20px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-muted); }
 
-  .header-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; margin-top: 5px; }
-  .lang-badges { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
-  .lang-badge { font-family: 'DM Mono', monospace; font-size: 9px; padding: 3px 8px; border-radius: 2px; font-weight: 500; }
+
 
   .tab-bar {
     display: flex; background: var(--surface); border-top: 1px solid var(--border);
@@ -141,8 +139,7 @@
     <div class="header-lead">language note</div>
     <h1>LOST IN TRANSLATION</h1>
   </div>
-  <div class="header-sub" id="header-sub"></div>
-  <div class="lang-badges" id="lang-badges"></div>
+
 </div>
 
 <div class="tab-bar">
@@ -320,14 +317,12 @@
   ];
 
   let activeLangCodes = ALL_LANGS.map(l => l.code);
-  // 初期状態：指定外の言語はデフォルト非表示
-  let hiddenLangCodes = ['en-us','pt-br','zh-tw','th','bg','el','et','hu','lt','lv','ro','sk','sl','tr','uk','he'];
+  // 初期状態：EN・FR・DE以外は非表示
+  let hiddenLangCodes = ALL_LANGS.filter(l => !['ja','en','fr','de'].includes(l.code)).map(l => l.code);
   let phrases = [
-    { ja:"おはようございます", en:"Good morning", de:"Guten Morgen", fr:"Bonjour", nl:"Goedemorgen", sv:"God morgon", es:"Buenos días", it:"Buongiorno", pt:"Bom dia", ko:"좋은 아침이에요", zh:"早上好", ru:"Доброе утро", ar:"صباح الخير", tags:["あいさつ"] },
-    { ja:"ありがとうございます", en:"Thank you very much", de:"Vielen Dank", fr:"Merci beaucoup", nl:"Hartelijk dank", sv:"Tack så mycket", es:"Muchas gracias", it:"Grazie mille", pt:"Muito obrigado", ko:"감사합니다", zh:"非常感谢", ru:"Большое спасибо", ar:"شكراً جزيلاً", tags:["あいさつ"] },
-    { ja:"元気ですか？", en:"How are you?", de:"Wie geht es Ihnen?", fr:"Comment allez-vous ?", nl:"Hoe gaat het?", sv:"Hur mår du?", es:"¿Cómo está usted?", it:"Come sta?", pt:"Como vai?", ko:"잘 지내세요?", zh:"你好吗？", ru:"Как дела?", ar:"كيف حالك؟", tags:["あいさつ"] },
-    { ja:"これはいくらですか？", en:"How much is this?", de:"Wie viel kostet das?", fr:"C'est combien ?", nl:"Hoeveel kost dit?", sv:"Hur mycket kostar det?", es:"¿Cuánto cuesta esto?", it:"Quanto costa questo?", pt:"Quanto custa isto?", ko:"이건 얼마예요?", zh:"这个多少钱？", ru:"Сколько это стоит?", ar:"بكم هذا؟", tags:["日常会話"] },
-    { ja:"お水をください", en:"Water, please", de:"Wasser, bitte", fr:"De l'eau, s'il vous plaît", nl:"Water, alsjeblieft", sv:"Vatten, tack", es:"Agua, por favor", it:"Acqua, per favore", pt:"Água, por favor", ko:"물 주세요", zh:"请给我水", ru:"Воды, пожалуйста", ar:"ماء من فضلك", tags:["食べ物・飲み物"] },
+    { ja:"こんにちは", en:"Hello", fr:"Bonjour", de:"Hallo", tags:["あいさつ"] },
+    { ja:"ありがとう", en:"Thank you", fr:"Merci", de:"Danke", tags:["あいさつ"] },
+    { ja:"ごめんなさい", en:"I'm sorry", fr:"Pardon", de:"Entschuldigung", tags:["あいさつ"] },
   ];
 
   let currentBtn = null;
@@ -356,10 +351,6 @@
 
   function updateHeader() {
     const langs = getActiveLangs();
-    document.getElementById('header-sub').textContent = langs.map(l => l.label).join(' · ');
-    document.getElementById('lang-badges').innerHTML = langs.map(l =>
-      `<span class="lang-badge" style="background:${l.bg};color:${l.color}">${l.label}</span>`
-    ).join('');
   }
 
   let activeTagFilter = null;
