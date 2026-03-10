@@ -912,12 +912,10 @@
       try {
         const data = JSON.parse(e.target.result);
         if (!data.phrases || !Array.isArray(data.phrases)) { showToast('ファイルの形式が正しくありません'); return; }
-        const existingJa = new Set(phrases.map(p => p.ja));
-        const newPhrases = data.phrases.filter(p => !existingJa.has(p.ja));
-        phrases = [...phrases, ...newPhrases];
-        if (data.hiddenLangCodes) data.hiddenLangCodes.forEach(code => { if (!hiddenLangCodes.includes(code)) hiddenLangCodes.push(code); });
+        phrases = data.phrases;
+        if (data.hiddenLangCodes) hiddenLangCodes = data.hiddenLangCodes;
         saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings();
-        showToast(`${newPhrases.length}件のフレーズを読み込みました ✓`);
+        showToast(`${phrases.length}件のフレーズを読み込みました ✓`);
       } catch(err) { showToast('読み込みに失敗しました'); }
       event.target.value = '';
     };
