@@ -285,22 +285,48 @@
 
 <script>
   const ALL_LANGS = [
-    { code: 'en', label: 'EN', name: 'English',    bcp47: 'en-GB', britishOnly: true, color: '#1a4a6e', bg: '#e8f0f8' },
-    { code: 'de', label: 'DE', name: 'Deutsch',    bcp47: 'de-DE', color: '#2d5a1b', bg: '#e8f3e8' },
-    { code: 'fr', label: 'FR', name: 'Français',   bcp47: 'fr-FR', color: '#6e1a3a', bg: '#f8e8ef' },
-    { code: 'nl', label: 'NL', name: 'Nederlands', bcp47: 'nl-NL', color: '#5a3a0a', bg: '#f8f0e0' },
-    { code: 'sv', label: 'SV', name: 'Svenska',    bcp47: 'sv-SE', color: '#1a3d6e', bg: '#e8eef8' },
-    { code: 'es', label: 'ES', name: 'Español',    bcp47: 'es-ES', color: '#6e2d1a', bg: '#f8ede8' },
-    { code: 'it', label: 'IT', name: 'Italiano',   bcp47: 'it-IT', color: '#5a1a6e', bg: '#f0e8f8' },
-    { code: 'pt', label: 'PT', name: 'Português',  bcp47: 'pt-PT', color: '#1a6e3a', bg: '#e8f8ee' },
-    { code: 'ko', label: 'KO', name: '한국어',      bcp47: 'ko-KR', color: '#3a1a6e', bg: '#ede8f8' },
-    { code: 'zh', label: 'ZH', name: '中文',        bcp47: 'zh-CN', color: '#6e1a1a', bg: '#f8e8e8' },
-    { code: 'ru', label: 'RU', name: 'Русский',    bcp47: 'ru-RU', color: '#1a5a5a', bg: '#e8f4f4' },
-    { code: 'ar', label: 'AR', name: 'العربية',    bcp47: 'ar-SA', color: '#3d3d1a', bg: '#f4f4e0' },
+    // ── サトミさん指定順 ──
+    { code: 'en',    label: 'EN',    name: 'English (British)',  bcp47: 'en-GB', color: '#1a4a6e', bg: '#e8f0f8' },
+    { code: 'fr',    label: 'FR',    name: 'Français',           bcp47: 'fr-FR', color: '#6e1a3a', bg: '#f8e8ef' },
+    { code: 'de',    label: 'DE',    name: 'Deutsch',            bcp47: 'de-DE', color: '#2d5a1b', bg: '#e8f3e8' },
+    { code: 'it',    label: 'IT',    name: 'Italiano',           bcp47: 'it-IT', color: '#5a1a6e', bg: '#f0e8f8' },
+    { code: 'da',    label: 'DA',    name: 'Dansk',              bcp47: 'da-DK', color: '#6e3a1a', bg: '#f8ede8' },
+    { code: 'sv',    label: 'SV',    name: 'Svenska',            bcp47: 'sv-SE', color: '#1a3d6e', bg: '#e8eef8' },
+    { code: 'nb',    label: 'NB',    name: 'Norsk',              bcp47: 'nb-NO', color: '#1a5a3a', bg: '#e8f4ee' },
+    { code: 'fi',    label: 'FI',    name: 'Suomi',              bcp47: 'fi-FI', color: '#3a1a6e', bg: '#eee8f8' },
+    { code: 'nl',    label: 'NL',    name: 'Nederlands',         bcp47: 'nl-NL', color: '#5a3a0a', bg: '#f8f0e0' },
+    { code: 'pl',    label: 'PL',    name: 'Polski',             bcp47: 'pl-PL', color: '#6e1a2d', bg: '#f8e8ec' },
+    { code: 'cs',    label: 'CS',    name: 'Čeština',            bcp47: 'cs-CZ', color: '#1a3d5a', bg: '#e8eef6' },
+    { code: 'es',    label: 'ES',    name: 'Español',            bcp47: 'es-ES', color: '#6e2d1a', bg: '#f8ede8' },
+    { code: 'pt',    label: 'PT',    name: 'Português',          bcp47: 'pt-PT', color: '#1a6e3a', bg: '#e8f8ee' },
+    { code: 'ru',    label: 'RU',    name: 'Русский',            bcp47: 'ru-RU', color: '#1a5a5a', bg: '#e8f4f4' },
+    { code: 'ar',    label: 'AR',    name: 'العربية',            bcp47: 'ar-SA', color: '#3d3d1a', bg: '#f4f4e0' },
+    { code: 'id',    label: 'ID',    name: 'Indonesia',          bcp47: 'id-ID', color: '#6e1a1a', bg: '#f8e8e8' },
+    { code: 'vi',    label: 'VI',    name: 'Tiếng Việt',         bcp47: 'vi-VN', color: '#1a6e5a', bg: '#e8f8f4' },
+    { code: 'ko',    label: 'KO',    name: '한국어',              bcp47: 'ko-KR', color: '#3a1a6e', bg: '#ede8f8' },
+    { code: 'zh',    label: 'ZH',    name: '中文（簡体）',        bcp47: 'zh-CN', color: '#6e1a1a', bg: '#f8e8e8' },
+    // ── 未指定分（DeepL全対応）──
+    { code: 'en-us', label: 'EN-US', name: 'English (American)', bcp47: 'en-US', color: '#1a4a6e', bg: '#dde8f5' },
+    { code: 'pt-br', label: 'PT-BR', name: 'Português (Brasil)', bcp47: 'pt-BR', color: '#1a6e3a', bg: '#ddf5e8' },
+    { code: 'zh-tw', label: 'ZH-TW', name: '中文（繁体）',        bcp47: 'zh-TW', color: '#6e1a1a', bg: '#f5dde0' },
+    { code: 'th',    label: 'TH',    name: 'ภาษาไทย',           bcp47: 'th-TH', color: '#5a1a3a', bg: '#f5e8ee' },
+    { code: 'bg',    label: 'BG',    name: 'Български',          bcp47: 'bg-BG', color: '#1a3a6e', bg: '#e0e8f5' },
+    { code: 'el',    label: 'EL',    name: 'Ελληνικά',           bcp47: 'el-GR', color: '#1a5a6e', bg: '#e0f0f5' },
+    { code: 'et',    label: 'ET',    name: 'Eesti',              bcp47: 'et-EE', color: '#3a5a1a', bg: '#e8f0e0' },
+    { code: 'hu',    label: 'HU',    name: 'Magyar',             bcp47: 'hu-HU', color: '#6e4a1a', bg: '#f5ede0' },
+    { code: 'lt',    label: 'LT',    name: 'Lietuvių',           bcp47: 'lt-LT', color: '#1a6e4a', bg: '#e0f5ec' },
+    { code: 'lv',    label: 'LV',    name: 'Latviešu',           bcp47: 'lv-LV', color: '#6e6e1a', bg: '#f5f5e0' },
+    { code: 'ro',    label: 'RO',    name: 'Română',             bcp47: 'ro-RO', color: '#6e1a4a', bg: '#f5e0ec' },
+    { code: 'sk',    label: 'SK',    name: 'Slovenčina',         bcp47: 'sk-SK', color: '#1a4a3a', bg: '#e0f0ec' },
+    { code: 'sl',    label: 'SL',    name: 'Slovenščina',        bcp47: 'sl-SI', color: '#3a1a5a', bg: '#ece0f5' },
+    { code: 'tr',    label: 'TR',    name: 'Türkçe',             bcp47: 'tr-TR', color: '#6e2a1a', bg: '#f5e4e0' },
+    { code: 'uk',    label: 'UK',    name: 'Українська',         bcp47: 'uk-UA', color: '#4a4a1a', bg: '#f0f0e0' },
+    { code: 'he',    label: 'HE',    name: 'עברית',              bcp47: 'he-IL', color: '#1a4a5a', bg: '#e0ecf0' },
   ];
 
   let activeLangCodes = ALL_LANGS.map(l => l.code);
-  let hiddenLangCodes = [];
+  // 初期状態：指定外の言語はデフォルト非表示
+  let hiddenLangCodes = ['en-us','pt-br','zh-tw','th','bg','el','et','hu','lt','lv','ro','sk','sl','tr','uk','he'];
   let phrases = [
     { ja:"おはようございます", en:"Good morning", de:"Guten Morgen", fr:"Bonjour", nl:"Goedemorgen", sv:"God morgon", es:"Buenos días", it:"Buongiorno", pt:"Bom dia", ko:"좋은 아침이에요", zh:"早上好", ru:"Доброе утро", ar:"صباح الخير", tags:["あいさつ"] },
     { ja:"ありがとうございます", en:"Thank you very much", de:"Vielen Dank", fr:"Merci beaucoup", nl:"Hartelijk dank", sv:"Tack så mycket", es:"Muchas gracias", it:"Grazie mille", pt:"Muito obrigado", ko:"감사합니다", zh:"非常感谢", ru:"Большое спасибо", ar:"شكراً جزيلاً", tags:["あいさつ"] },
@@ -337,7 +363,7 @@
     const langs = getActiveLangs();
     document.getElementById('header-sub').textContent = langs.map(l => l.label).join(' · ');
     document.getElementById('lang-badges').innerHTML = langs.map(l =>
-      `<span class="lang-badge" style="background:${l.bg};color:${l.color}">${l.britishOnly ? 'British ' : ''}${l.label}</span>`
+      `<span class="lang-badge" style="background:${l.bg};color:${l.color}">${l.label}</span>`
     ).join('');
   }
 
@@ -438,7 +464,13 @@
     renderTagFilter();
   }
 
-  const DEEPL_LANG_MAP = { ja:'JA', en:'EN-GB', de:'DE', fr:'FR', nl:'NL', sv:'SV', es:'ES', it:'IT', pt:'PT-PT', ko:'KO', zh:'ZH', ru:'RU', ar:'AR' };
+  const DEEPL_LANG_MAP = {
+    ja:'JA', en:'EN-GB', fr:'FR', de:'DE', it:'IT', da:'DA', sv:'SV', nb:'NB',
+    fi:'FI', nl:'NL', pl:'PL', cs:'CS', es:'ES', pt:'PT-PT', ru:'RU', ar:'AR',
+    id:'ID', vi:'VI', ko:'KO', zh:'ZH', 'en-us':'EN-US', 'pt-br':'PT-BR',
+    'zh-tw':'ZH-HANT', th:'TH', bg:'BG', el:'EL', et:'ET', hu:'HU',
+    lt:'LT', lv:'LV', ro:'RO', sk:'SK', sl:'SL', tr:'TR', uk:'UK', he:'HE',
+  };
 
   function loadDeeplKey() { try { deeplApiKey = localStorage.getItem('deepl-api-key') || ''; } catch(e) {} }
   function saveDeeplKey(key) { deeplApiKey = key.trim(); try { localStorage.setItem('deepl-api-key', deeplApiKey); } catch(e) {} }
@@ -776,12 +808,12 @@
             <button class="move-btn" onclick="moveLang('${lang.code}',1)" ${isLast ? 'disabled' : ''}>▼</button>
           </div>
           <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
-          <div class="lang-setting-info"><div class="lang-setting-name">${lang.name}${lang.britishOnly?' (British)':''}</div><div class="lang-setting-code">${lang.bcp47} · 表示中</div></div>
+          <div class="lang-setting-info"><div class="lang-setting-name">${lang.name}</div><div class="lang-setting-code">${lang.bcp47} · 表示中</div></div>
           <button class="remove-btn" onclick="hideLang('${lang.code}')">非表示</button></div>`;
       } else {
         html += `<div class="lang-setting-row" style="opacity:0.55"><span style="width:28px;flex-shrink:0"></span>
           <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
-          <div class="lang-setting-info"><div class="lang-setting-name">${lang.name}${lang.britishOnly?' (British)':''}</div><div class="lang-setting-code">${lang.bcp47} · 非表示</div></div>
+          <div class="lang-setting-info"><div class="lang-setting-name">${lang.name}</div><div class="lang-setting-code">${lang.bcp47} · 非表示</div></div>
           <button class="remove-btn" style="color:var(--accent);border-color:var(--accent)" onclick="showLang('${lang.code}')">表示する</button></div>`;
       }
     });
@@ -812,9 +844,9 @@
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = lang.bcp47; utter.rate = 0.88;
     const voices = window.speechSynthesis.getVoices();
-    const voice = lang.britishOnly
-      ? (voices.find(v => v.lang === 'en-GB') || voices.find(v => v.name.toLowerCase().includes('british')) || voices.find(v => v.lang.startsWith('en')))
-      : (voices.find(v => v.lang === lang.bcp47) || voices.find(v => v.lang.startsWith(lang.bcp47.split('-')[0])));
+    const voice = voices.find(v => v.lang === lang.bcp47)
+      || voices.find(v => v.lang.startsWith(lang.bcp47.split('-')[0]))
+      || null;
     if (voice) utter.voice = voice;
     utter.onend = utter.onerror = () => { if (btn) btn.classList.remove('playing'); currentBtn = null; };
     window.speechSynthesis.speak(utter);
