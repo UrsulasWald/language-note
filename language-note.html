@@ -65,7 +65,7 @@
   .phrase-ja::before { content: 'JA'; font-family: 'DM Mono', monospace; font-size: 8px; color: var(--text-muted); background: var(--tag-ja); padding: 2px 5px; border-radius: 2px; flex-shrink: 0; }
   .phrase-ja-text { flex: 1; }
 
-  .phrase-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; min-height: 18px; }
+  .phrase-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
   .phrase-tag { font-family: 'DM Mono', monospace; font-size: 8px; padding: 2px 6px; border-radius: 2px; background: var(--tag-ja); color: var(--text-muted); }
   .phrase-langs { display: none; border-top: 1px solid var(--border); }
   .phrase-card.expanded .phrase-langs { display: block; }
@@ -540,7 +540,15 @@
         const deepLTarget = DEEPL_LANG_MAP[code];
         if (!deepLTarget) return null;
         const sl = sourceLangCode ? sourceLangCode.split('-')[0] : undefined;
-        const text = await translateOne(sourceText, deepLTarget, sl);
+        // DeepLが短いフレーズを2回繰り返すことがあるため句点を付けて送る
+        const needsDot = !/[。．.!?！？]$/.test(sourceText);
+        const sendText = needsDot ? sourceText + '。' : sourceText;
+        let text = await translateOne(sendText, deepLTarget, sl);
+        // 末尾の句読点を除去
+        text = text.replace(/[.!?。．！？]+$/, '').trim();
+        // 同じ文が繰り返されている場合は1つにする（例: "I'm sorry. I'm sorry."）
+        const parts = text.split(/[.!?。．！？]\s+/);
+        if (parts.length === 2 && parts[0].trim() === parts[1].trim()) text = parts[0].trim();
         return { code, text };
       }));
       results.forEach(r => {
@@ -788,7 +796,12 @@
       const results = await Promise.all(targets.map(async code => {
         const deepLTarget = DEEPL_LANG_MAP[code]; if (!deepLTarget) return null;
         const sl = sourceLangCode ? sourceLangCode.split('-')[0] : undefined;
-        const text = await translateOne(sourceText, deepLTarget, sl);
+        const needsDot2 = !/[。．.!?！？]$/.test(sourceText);
+        const sendText2 = needsDot2 ? sourceText + '。' : sourceText;
+        let text = await translateOne(sendText2, deepLTarget, sl);
+        text = text.replace(/[.!?。．！？]+$/, '').trim();
+        const parts2 = text.split(/[.!?。．！？]\s+/);
+        if (parts2.length === 2 && parts2[0].trim() === parts2[1].trim()) text = parts2[0].trim();
         return { code, text };
       }));
       results.forEach(r => { if (!r || !r.text) return; const el = document.getElementById('edit-' + r.code); if (el) { el.value = r.text; el.classList.add('input-translated'); } });
