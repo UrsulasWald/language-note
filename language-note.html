@@ -838,34 +838,29 @@
         if (!clone) return;
         clone.remove(); clone = null; row.style.display = '';
         const srcCode = row.dataset.code;
-        // placeholderの位置からDOMの最終順序を直接読み取る
+
+        // placeholder削除前にDOMの並び順を読み取る
+        // placeholder位置を「前後のrowのcode」で特定する
         const parent = placeholder.parentNode;
-        const allRows = [...parent.querySelectorAll('.lang-setting-row[draggable="true"], .placeholder-row')];
-        const placeholderIndex = allRows.indexOf(placeholder);
+        const prevRow = placeholder.previousElementSibling;
+        const prevCode = prevRow && prevRow.dataset && prevRow.dataset.code ? prevRow.dataset.code : null;
         placeholder.remove();
-        // placeholder位置の前にある表示中言語コードを収集
-        const newOrder = [];
-        parent.querySelectorAll('.lang-setting-row[draggable="true"]').forEach(r => {
-          if (r.dataset.code) newOrder.push(r.dataset.code);
-        });
-        // srcCodeをplaceholderIndexの位置に挿入
-        const fromIdx = newOrder.indexOf(srcCode);
-        if (fromIdx !== -1) {
-          newOrder.splice(fromIdx, 1);
-          const insertAt = Math.max(0, Math.min(placeholderIndex, newOrder.length));
-          newOrder.splice(insertAt, 0, srcCode);
-        }
-        // activeLangCodesを更新（hiddenのコードは元の相対順序を維持）
-        const hidden = activeLangCodes.filter(c => hiddenLangCodes.includes(c));
-        newOrder.forEach((code, i) => {
-          const ai = activeLangCodes.indexOf(code);
-          if (ai !== -1) activeLangCodes.splice(ai, 1);
-        });
-        // hiddenを除いた既存順にnewOrderを反映
-        const base = activeLangCodes.filter(c => !newOrder.includes(c));
+
+        // 表示中langのcodeを現在のDOM順で取得（rowはまだdisplay:noneだが、dataset.codeは読める）
+        const visibleRows = [...parent.querySelectorAll('.lang-setting-row[draggable="true"]')];
+        const newOrder = visibleRows.map(r => r.dataset.code).filter(Boolean);
+
+        // prevCodeの直後にsrcCodeを挿入（prevCodeがnullなら先頭）
+        const filtered = newOrder.filter(c => c !== srcCode);
+        const insertAt = prevCode ? filtered.indexOf(prevCode) + 1 : 0;
+        filtered.splice(insertAt, 0, srcCode);
+
+        // activeLangCodesのvisible部分だけfilteredで置き換え（hidden順序は維持）
+        const hiddenCodes = activeLangCodes.filter(c => hiddenLangCodes.includes(c));
         activeLangCodes.length = 0;
-        newOrder.forEach(c => activeLangCodes.push(c));
-        base.forEach(c => activeLangCodes.push(c));
+        filtered.forEach(c => activeLangCodes.push(c));
+        hiddenCodes.forEach(c => activeLangCodes.push(c));
+
         saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings();
       });
     });
