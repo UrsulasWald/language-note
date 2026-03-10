@@ -299,7 +299,7 @@
     { code: 'ar', label: 'AR', name: 'العربية',    bcp47: 'ar-SA', color: '#3d3d1a', bg: '#f4f4e0' },
   ];
 
-  const activeLangCodes = ALL_LANGS.map(l => l.code);
+  let activeLangCodes = ALL_LANGS.map(l => l.code);
   let hiddenLangCodes = [];
   let phrases = [
     { ja:"おはようございます", en:"Good morning", de:"Guten Morgen", fr:"Bonjour", nl:"Goedemorgen", sv:"God morgon", es:"Buenos días", it:"Buongiorno", pt:"Bom dia", ko:"좋은 아침이에요", zh:"早上好", ru:"Доброе утро", ar:"صباح الخير", tags:["あいさつ"] },
