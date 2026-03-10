@@ -409,19 +409,15 @@
       };
       const endPressTouch = () => {
         touchHandled = true;
-        if (!longPressed && pressTimer) {
-          clearTimeout(pressTimer); pressTimer = null;
-          card.classList.toggle('expanded');
-        }
+        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        if (!longPressed) { card.classList.toggle('expanded'); }
         longPressed = false;
         setTimeout(() => { touchHandled = false; }, 500);
       };
       const endPressMouse = () => {
         if (touchHandled) return;
-        if (!longPressed && pressTimer) {
-          clearTimeout(pressTimer); pressTimer = null;
-          card.classList.toggle('expanded');
-        }
+        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        if (!longPressed) { card.classList.toggle('expanded'); }
         longPressed = false;
       };
 
@@ -690,19 +686,15 @@
       };
       const endPressTouch = () => {
         touchHandled = true;
-        if (!longPressed && pressTimer) {
-          clearTimeout(pressTimer); pressTimer = null;
-          card.classList.toggle('expanded');
-        }
+        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        if (!longPressed) { card.classList.toggle('expanded'); }
         longPressed = false;
         setTimeout(() => { touchHandled = false; }, 500);
       };
       const endPressMouse = () => {
         if (touchHandled) return;
-        if (!longPressed && pressTimer) {
-          clearTimeout(pressTimer); pressTimer = null;
-          card.classList.toggle('expanded');
-        }
+        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        if (!longPressed) { card.classList.toggle('expanded'); }
         longPressed = false;
       };
 
