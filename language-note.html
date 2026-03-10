@@ -385,40 +385,44 @@
       let pressTimer = null;
       let longPressed = false;
       let touchHandled = false;
-      let moved = false;
+      let startX = 0, startY = 0;
 
       const startPress = (e) => {
         if (e.type === 'mousedown' && touchHandled) return;
         longPressed = false;
-        moved = false;
+        if (e.touches) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }
         pressTimer = setTimeout(() => {
           longPressed = true;
           pressTimer = null;
           openEditModal(globalIdx);
         }, 500);
       };
-      const cancelPress = () => {
-        moved = true;
-        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+      const cancelPress = (e) => {
+        if (!pressTimer) return;
+        if (e.touches) {
+          const dx = Math.abs(e.touches[0].clientX - startX);
+          const dy = Math.abs(e.touches[0].clientY - startY);
+          if (dx > 8 || dy > 8) { clearTimeout(pressTimer); pressTimer = null; }
+        } else {
+          clearTimeout(pressTimer); pressTimer = null;
+        }
       };
       const endPressTouch = () => {
         touchHandled = true;
-        if (!longPressed && !moved) {
-          if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        if (!longPressed && pressTimer) {
+          clearTimeout(pressTimer); pressTimer = null;
           card.classList.toggle('expanded');
         }
         longPressed = false;
-        moved = false;
         setTimeout(() => { touchHandled = false; }, 500);
       };
       const endPressMouse = () => {
         if (touchHandled) return;
-        if (!longPressed && !moved) {
-          if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        if (!longPressed && pressTimer) {
+          clearTimeout(pressTimer); pressTimer = null;
           card.classList.toggle('expanded');
         }
         longPressed = false;
-        moved = false;
       };
 
       card.addEventListener('mousedown', startPress);
@@ -428,8 +432,7 @@
       card.addEventListener('mouseup', endPressMouse);
       card.addEventListener('touchend', endPressTouch);
 
-      const tagsHtml = (phrase.tags||[]).length
-        ? `<div class="phrase-tags">${(phrase.tags||[]).map(t=>`<span class="phrase-tag">${t}</span>`).join('')}</div>` : '';
+      const tagsHtml = `<div class="phrase-tags">${(phrase.tags||[]).map(t=>`<span class="phrase-tag">${t}</span>`).join('')}</div>`;
 
       let langsHtml = '<div class="phrase-langs">';
       langs.forEach(lang => {
@@ -597,10 +600,13 @@
     editingIdx = idx;
     const phrase = phrases[idx];
     document.getElementById('edit-modal-category').textContent = (phrase.tags||[]).join('  ') || 'タグなし';
-    document.getElementById('edit-fields').innerHTML = `
-      <div class="form-row"><div class="form-label"><span class="lang-label" style="background:var(--tag-ja);color:var(--text-muted)">JA</span><span class="form-label-text">日本語</span></div><input type="text" id="edit-ja" class="form-input" value="${escapeAttr(phrase.ja)}"></div>` +
-      ALL_LANGS.map(lang => `<div class="form-row"><div class="form-label"><span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span><span class="form-label-text">${lang.name}</span></div><input type="text" id="edit-${lang.code}" class="form-input" value="${escapeAttr(phrase[lang.code]||'')}" oninput="this.classList.remove('input-translated')"></div>`).join('') +
-      `<div class="form-row" style="margin-top:4px"><div class="form-label"><span class="form-label-text">タグ（スペース区切り）</span></div><input type="text" id="edit-tags" class="form-input" value="${escapeAttr((phrase.tags||[]).join(' '))}" placeholder="あいさつ 毎日 重要"></div>`;
+    document.getElementById('edit-fields').innerHTML =
+      `<div class="form-row"><div class="form-label"><span class="lang-label" style="background:var(--tag-ja);color:var(--text-muted)">JA</span><span class="form-label-text">日本語</span></div><input type="text" id="edit-ja" class="form-input"></div>` +
+      ALL_LANGS.map(lang => `<div class="form-row"><div class="form-label"><span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span><span class="form-label-text">${lang.name}</span></div><input type="text" id="edit-${lang.code}" class="form-input" oninput="this.classList.remove('input-translated')"></div>`).join('') +
+      `<div class="form-row" style="margin-top:4px"><div class="form-label"><span class="form-label-text">タグ（スペース区切り）</span></div><input type="text" id="edit-tags" class="form-input" placeholder="あいさつ 毎日 重要"></div>`;
+    document.getElementById('edit-ja').value = phrase.ja;
+    ALL_LANGS.forEach(lang => { const el = document.getElementById('edit-' + lang.code); if (el) el.value = phrase[lang.code] || ''; });
+    document.getElementById('edit-tags').value = (phrase.tags||[]).join(' ');
     document.getElementById('edit-modal').classList.add('show');
   }
 
@@ -661,39 +667,43 @@
       let pressTimer = null;
       let longPressed = false;
       let touchHandled = false;
-      let moved = false;
+      let startX = 0, startY = 0;
 
       const startPress = (e) => {
         if (e.type === 'mousedown' && touchHandled) return;
         longPressed = false;
-        moved = false;
+        if (e.touches) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }
         pressTimer = setTimeout(() => {
           longPressed = true; pressTimer = null;
           openArchiveModal(globalIdx);
         }, 500);
       };
-      const cancelPress = () => {
-        moved = true;
-        if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+      const cancelPress = (e) => {
+        if (!pressTimer) return;
+        if (e.touches) {
+          const dx = Math.abs(e.touches[0].clientX - startX);
+          const dy = Math.abs(e.touches[0].clientY - startY);
+          if (dx > 8 || dy > 8) { clearTimeout(pressTimer); pressTimer = null; }
+        } else {
+          clearTimeout(pressTimer); pressTimer = null;
+        }
       };
       const endPressTouch = () => {
         touchHandled = true;
-        if (!longPressed && !moved) {
-          if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        if (!longPressed && pressTimer) {
+          clearTimeout(pressTimer); pressTimer = null;
           card.classList.toggle('expanded');
         }
         longPressed = false;
-        moved = false;
         setTimeout(() => { touchHandled = false; }, 500);
       };
       const endPressMouse = () => {
         if (touchHandled) return;
-        if (!longPressed && !moved) {
-          if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+        if (!longPressed && pressTimer) {
+          clearTimeout(pressTimer); pressTimer = null;
           card.classList.toggle('expanded');
         }
         longPressed = false;
-        moved = false;
       };
 
       card.addEventListener('mousedown', startPress);
@@ -703,8 +713,7 @@
       card.addEventListener('mouseup', endPressMouse);
       card.addEventListener('touchend', endPressTouch);
 
-      const tagsHtml = (phrase.tags||[]).length
-        ? `<div class="phrase-tags">${(phrase.tags||[]).map(t=>`<span class="phrase-tag">${t}</span>`).join('')}</div>` : '';
+      const tagsHtml = `<div class="phrase-tags">${(phrase.tags||[]).map(t=>`<span class="phrase-tag">${t}</span>`).join('')}</div>`;
 
       let langsHtml = '<div class="phrase-langs">';
       langs.forEach(lang => {
