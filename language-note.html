@@ -113,10 +113,6 @@
   .settings-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin-bottom: 10px; }
   .lang-setting-row { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; transition: box-shadow 0.15s, opacity 0.15s; }
   .lang-setting-row.fixed { background: var(--tag-ja); }
-  .move-btns { display: flex; flex-direction: column; gap: 3px; flex-shrink: 0; }
-  .move-btn { background: none; border: 1px solid var(--border); border-radius: 3px; width: 28px; height: 22px; font-size: 11px; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-  .move-btn:active { background: var(--tag-ja); border-color: var(--accent); color: var(--accent); }
-  .move-btn:disabled { opacity: 0.2; cursor: default; }
   .lang-setting-info { flex: 1; }
   .lang-setting-name { font-size: 14px; font-weight: 500; }
   .lang-setting-code { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 2px; }
@@ -793,25 +789,25 @@
     }
 
     const visibleLangs = getActiveLangs();
-    let html = `<div class="lang-setting-row fixed"><span style="font-size:16px;color:var(--border-dark);padding:2px 4px">☰</span><span class="lang-label" style="background:var(--tag-ja);color:var(--text-muted)">JA</span><div class="lang-setting-info"><div class="lang-setting-name">日本語（固定）</div><div class="lang-setting-code">ja-JP · 常に表示</div></div></div>`;
+    const allHidden = ALL_LANGS.filter(l => l.code !== 'ja').every(l => hiddenLangCodes.includes(l.code));
+    const allVisible = ALL_LANGS.filter(l => l.code !== 'ja').every(l => !hiddenLangCodes.includes(l.code));
+
+    let html = `<div style="display:flex;gap:8px;margin-bottom:12px">
+      <button class="remove-btn" style="flex:1;text-align:center;${allVisible?'opacity:0.4;pointer-events:none':''}" onclick="showAllLangs()">すべて表示</button>
+      <button class="remove-btn" style="flex:1;text-align:center;${allHidden?'opacity:0.4;pointer-events:none':''}" onclick="hideAllLangs()">すべて非表示</button>
+    </div>`;
+
+    html += `<div class="lang-setting-row fixed"><span class="lang-label" style="background:var(--tag-ja);color:var(--text-muted)">JA</span><div class="lang-setting-info"><div class="lang-setting-name">日本語（固定）</div><div class="lang-setting-code">ja-JP · 常に表示</div></div></div>`;
 
     ALL_LANGS.filter(l => l.code !== 'ja').forEach(lang => {
       const isHidden = hiddenLangCodes.includes(lang.code);
-      const visibleCodes = activeLangCodes.filter(c => !hiddenLangCodes.includes(c));
-      const pos = visibleCodes.indexOf(lang.code);
-      const isFirst = pos === 0;
-      const isLast = pos === visibleCodes.length - 1;
       if (!isHidden) {
         html += `<div class="lang-setting-row" data-code="${lang.code}">
-          <div class="move-btns">
-            <button class="move-btn" onclick="moveLang('${lang.code}',-1)" ${isFirst ? 'disabled' : ''}>▲</button>
-            <button class="move-btn" onclick="moveLang('${lang.code}',1)" ${isLast ? 'disabled' : ''}>▼</button>
-          </div>
           <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
           <div class="lang-setting-info"><div class="lang-setting-name">${lang.name}</div><div class="lang-setting-code">${lang.bcp47} · 表示中</div></div>
           <button class="remove-btn" onclick="hideLang('${lang.code}')">非表示</button></div>`;
       } else {
-        html += `<div class="lang-setting-row" style="opacity:0.55"><span style="width:28px;flex-shrink:0"></span>
+        html += `<div class="lang-setting-row" style="opacity:0.55">
           <span class="lang-label" style="background:${lang.bg};color:${lang.color}">${lang.label}</span>
           <div class="lang-setting-info"><div class="lang-setting-name">${lang.name}</div><div class="lang-setting-code">${lang.bcp47} · 非表示</div></div>
           <button class="remove-btn" style="color:var(--accent);border-color:var(--accent)" onclick="showLang('${lang.code}')">表示する</button></div>`;
@@ -820,17 +816,8 @@
     document.getElementById('all-langs-list').innerHTML = html;
   }
 
-  function moveLang(code, dir) {
-    const visibleCodes = activeLangCodes.filter(c => !hiddenLangCodes.includes(c));
-    const idx = visibleCodes.indexOf(code);
-    const newIdx = idx + dir;
-    if (newIdx < 0 || newIdx >= visibleCodes.length) return;
-    // activeLangCodes内での実際のインデックスを使って入れ替え
-    const ai = activeLangCodes.indexOf(code);
-    const bi = activeLangCodes.indexOf(visibleCodes[newIdx]);
-    [activeLangCodes[ai], activeLangCodes[bi]] = [activeLangCodes[bi], activeLangCodes[ai]];
-    saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings();
-  }
+  function showAllLangs() { hiddenLangCodes = []; saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings(); showToast('すべての言語を表示しました'); }
+  function hideAllLangs() { hiddenLangCodes = ALL_LANGS.filter(l => l.code !== 'ja').map(l => l.code); saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings(); showToast('すべての言語を非表示にしました'); }
 
   function hideLang(code) { if (!hiddenLangCodes.includes(code)) hiddenLangCodes.push(code); saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings(); showToast(getLang(code).name + ' を非表示にしました'); }
   function showLang(code) { hiddenLangCodes = hiddenLangCodes.filter(c => c !== code); saveData(); updateHeader(); renderPhrases(); renderLangInputs(); renderSettings(); showToast(getLang(code).name + ' を表示しました'); }
