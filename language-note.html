@@ -389,10 +389,12 @@
       let moved = false;
       let startX = 0, startY = 0;
 
+      let pressing = false;
       const startPress = (e) => {
         if (e.type === 'mousedown' && touchHandled) return;
         longPressed = false;
         moved = false;
+        pressing = true;
         if (e.touches) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }
         pressTimer = setTimeout(() => {
           longPressed = true;
@@ -413,6 +415,8 @@
         }
       };
       const endPressTouch = () => {
+        if (!pressing) return;
+        pressing = false;
         touchHandled = true;
         if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
         if (!longPressed && !moved) { card.classList.toggle('expanded'); }
@@ -688,10 +692,12 @@
       let moved = false;
       let startX = 0, startY = 0;
 
+      let pressing = false;
       const startPress = (e) => {
         if (e.type === 'mousedown' && touchHandled) return;
         longPressed = false;
         moved = false;
+        pressing = true;
         if (e.touches) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }
         pressTimer = setTimeout(() => {
           longPressed = true; pressTimer = null;
@@ -711,6 +717,8 @@
         }
       };
       const endPressTouch = () => {
+        if (!pressing) return;
+        pressing = false;
         touchHandled = true;
         if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
         if (!longPressed && !moved) { card.classList.toggle('expanded'); }
